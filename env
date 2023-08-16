@@ -1,0 +1,5 @@
+NODE_ENV=development
+PORT=3001
+DRIZZLE_DATABASE_URL=postgres://traxx10:axcLJV9ewCs3@ep-falling-dust-26774445.eu-central-1.aws.neon.tech/neondb
+OTP_SECRET=Y6Y86KZDA67Tmygw
+JWT_KEY=d47hRNjCpGiB3YqJ7jis

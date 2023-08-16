@@ -1,0 +1,337 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "id": "814a1cbb-e641-4aa8-af37-f3416ce204a9",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "shop_type": {
+      "name": "shop_type",
+      "schema": "",
+      "columns": {
+        "shoptypeid": {
+          "name": "shoptypeid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "user_master": {
+      "name": "user_master",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userid": {
+          "name": "userid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "fullname": {
+          "name": "fullname",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mobilenumber": {
+          "name": "mobilenumber",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isvalidated": {
+          "name": "isvalidated",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isenabled": {
+          "name": "isenabled",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "businessname": {
+          "name": "businessname",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dpname": {
+          "name": "dpname",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "otp": {
+          "name": "otp",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "appleauthtkn": {
+          "name": "appleauthtkn",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "appleAuthTknSecret": {
+          "name": "appleAuthTknSecret",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "appleAuthTknUserID": {
+          "name": "appleAuthTknUserID",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "appleAuthTknUserName": {
+          "name": "appleAuthTknUserName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "googleAuthTkn": {
+          "name": "googleAuthTkn",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "googleAuthTknSecret": {
+          "name": "googleAuthTknSecret",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "googleAuthTknUserID": {
+          "name": "googleAuthTknUserID",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "googleAuthTknUserName": {
+          "name": "googleAuthTknUserName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "loggedInWith": {
+          "name": "loggedInWith",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "postcode": {
+          "name": "postcode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address1": {
+          "name": "address1",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address2": {
+          "name": "address2",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "city": {
+          "name": "city",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ageGroup": {
+          "name": "ageGroup",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gender": {
+          "name": "gender",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "appVersion": {
+          "name": "appVersion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lastActivity": {
+          "name": "lastActivity",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdOn": {
+          "name": "createdOn",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "currentSchemeID": {
+          "name": "currentSchemeID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "currentSchemeName": {
+          "name": "currentSchemeName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "currentSchemeAmount": {
+          "name": "currentSchemeAmount",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "currentSchemePurchaseDate": {
+          "name": "currentSchemePurchaseDate",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "currentSchemeValidityDate": {
+          "name": "currentSchemeValidityDate",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "userRating": {
+          "name": "userRating",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pushNotificationToken": {
+          "name": "pushNotificationToken",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mobileDevice": {
+          "name": "mobileDevice",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "secureToken": {
+          "name": "secureToken",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "thanosID": {
+          "name": "thanosID",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "thanosPassword": {
+          "name": "thanosPassword",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isAdmin": {
+          "name": "isAdmin",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cashiertills": {
+          "name": "cashiertills",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "paiduser": {
+          "name": "paiduser",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usertype": {
+          "name": "usertype",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "interests": {
+          "name": "interests",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "baselongitude": {
+          "name": "baselongitude",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "baselatitude": {
+          "name": "baselatitude",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "user_master_userid_unique": {
+          "name": "user_master_userid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "userid"
+          ]
+        }
+      }
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}
