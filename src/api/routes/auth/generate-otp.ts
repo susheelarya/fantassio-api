@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import axios from 'axios';
 
 import { dbConnect } from '../../../db/dbConnect';
-import { userMaster } from '../../../db/schema/user';
+import { userMaster } from '../../../db/schema';
 import { eq } from 'drizzle-orm';
 import { totp } from 'otplib';
 
@@ -62,7 +62,7 @@ router.post(
     // }
 
     var otpMessage = otp + ' is your Hichers One Time Password (OTP).';
-
+    console.log(otpMessage.length);
     console.log(otpMessage);
 
     //remove plus from countryCode
@@ -106,14 +106,13 @@ router.post(
         numberTo +
         '&text=' +
         otpMessage;
-
       console.log(requesturl);
 
-      await axios.get(requesturl);
+      // await axios.get(requesturl);
 
       res.status(200).json({
         response: 'Success',
-        user: user[0].userid,
+        userID: user[0].userid,
         otp: otp,
       });
     }
@@ -130,7 +129,7 @@ router.post(
         numberTo +
         '&text=' +
         otpMessage;
-
+      console.log(requesturl.slice(-1));
       await axios.get(requesturl);
 
       res.status(200).json({

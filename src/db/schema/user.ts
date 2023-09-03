@@ -1,8 +1,8 @@
-import { time } from 'console';
 import {
   serial,
   text,
   timestamp,
+  time,
   pgTable,
   boolean,
   integer,
@@ -11,6 +11,10 @@ import {
   varchar,
   primaryKey,
 } from 'drizzle-orm/pg-core';
+
+import { options, questions } from './question';
+import { shopType } from './shop';
+import { offerMaster } from './offer';
 
 export const userMaster = pgTable('user_master', {
   id: serial('id'),
@@ -57,7 +61,7 @@ export const userMaster = pgTable('user_master', {
   paiduser: boolean('paiduser'),
   usertype: text('usertype'),
   about: text('about'),
-  businesslogo : text('logo'),
+  businesslogo: text('logo'),
   interests: text('interests'),
   baselongitude: numeric('baselongitude'),
   baselatitude: numeric('baselatitude'),
@@ -65,60 +69,14 @@ export const userMaster = pgTable('user_master', {
   updatedAt: timestamp('updated_at'),
 });
 
-export const customerTransaction = pgTable('customer_transaction', {
-  transactionid: serial('transactionid').primaryKey(),
-  useridshopper: integer('useridshopper').notNull(),
-  useridshop: integer('useridshop').notNull(),
-  moneyspent: numeric('moneyspent'),
-  pointsearned: numeric('pointsearned'),
-  loyaltyschemeid: integer('loyaltyschemeid'),
-  receiptid: integer('receiptid'),
-  collectedflag: boolean('collectedflag'),
-  datetime: timestamp('datetime'),
-});
-export const loyaltySchemeShopMapping = pgTable('loyalty_scheme_shop_mapping', {
-  useridshop: integer('useridshop'),
-  loyaltyschemeid: integer('loyaltyschemeid').references(
-    () => loyaltySchemeMaster.loyaltyschemeid
-  ),
-  mapid: serial('mapid').primaryKey(),
-});
-
-export const shopType = pgTable('shop_type', {
-  shoptypeid: serial('shoptypeid').primaryKey(),
-  description: text('description'),
-});
-
-export const loyaltySchemeMaster = pgTable('loyalty_scheme_master', {
-  loyaltyschemeid: serial('loyaltyschemeid').primaryKey(),
-  loyaltyschemetypeid: integer('loyaltyschemetypeid')
-    .notNull()
-    .references(() => loyaltySchemeType.loyaltyschemetypeid),
-  moneyforpoints: numeric('moneyforpoints'),
-  pointsfrommoney: numeric('pointsfrommoney'),
-  pointstoredeem: numeric('pointstoredeem'),
-  moneyfrompoints: numeric('moneyfrompoints'),
-  redeemfrequency: text('redeemfrequency'),
-  predefined: boolean('predefined').notNull(),
-  stampstocollect: numeric('stampstocollect'),
-  freeitems: numeric('freeitems'),
-  expiremonths: integer('expiremonths'),
-  validfromdate: date('validfromdate'),
-  loyaltyschemename: text('loyaltyschemename'),
-  expireflag: boolean('expireflag'),
-});
-
-export const loyaltySchemeType = pgTable('loyalty_scheme_type', {
-  loyaltyschemetypeid: serial('loyaltyschemetypeid').primaryKey(),
-  description: text('description'),
-});
-
 export const offerAvailed = pgTable(
   'offer_availed',
   {
-    userid: integer('userid'),
+    userid: integer('userid').references(() => userMaster.userid),
     mapid: integer('mapid').references(() => userOfferMapping.mapid),
     datetime: timestamp('datetime'),
+    offerid: integer('offerid').references(() => offerMaster.offerid),
+    useridshop: integer('useridshop').references(() => userMaster.userid),
   },
   (tableOfferAvailed) => {
     return {
@@ -126,18 +84,6 @@ export const offerAvailed = pgTable(
     };
   }
 );
-
-export const stamps = pgTable('stamps', {
-  transactionid: serial('transactionid'),
-  useridshopper: integer('useridshopper').references(() => userMaster.userid),
-  useridshop: integer('useridshop').references(() => userMaster.userid),
-  redeemflag: boolean('redeemflag'),
-  stampsbought: integer('stampsbought'),
-  loyaltyschemeid: integer('loyaltyschemeid').references(
-    () => loyaltySchemeMaster.loyaltyschemeid
-  ),
-  datetime: timestamp('datetime'),
-});
 
 export const userLog = pgTable('user_log', {
   useridshop: integer('useridshop')
@@ -153,45 +99,15 @@ export const userLog = pgTable('user_log', {
 export const userOfferMapping = pgTable('user_offer_mapping', {
   mapid: serial('mapid').primaryKey().notNull(),
   userid: integer('userid').references(() => userMaster.userid),
-  offerid: integer('datetime').references(() => offerMaster.offerid),
+  offerid: integer('offerid').references(() => offerMaster.offerid),
   virtualobjcoord: text('virtualobjcoord'),
-});
-
-export const offerMaster = pgTable('offer_master', {
-  offertypeid: integer('offertypeid')
-    .notNull()
-    .references(() => offerType.offertypeid),
-  offerid: serial('offerid').primaryKey().notNull(),
-  description: text('description'),
-  buyitem: integer('buyitem'),
-  freeitem: integer('freeitem'),
-  percentagediscount: numeric('percentagediscount'),
-  cashdiscount: numeric('cashdiscount'),
-  minspend: numeric('minspend'),
-  buyproductid: integer('buyproductid').references(
-    () => productMaster.productid
-  ),
-  offerpicture: text('offerpicture'),
-  validity: date('validity'),
-  numberoffers: integer('numberoffers'),
-  firstserveflag: boolean('firstserveflag'),
-  virtualflag: boolean('virtualflag'),
-  predefined: boolean('predefined').notNull(),
-  validflag: boolean('validflag'),
-  sellproductid: integer('sellproductid').references(
-    () => productMaster.productid
-  ),
-});
-
-export const offerType = pgTable('offer_type', {
-  offertypeid: serial('offertypeid').primaryKey().notNull(),
-  description: text('description'),
-});
-
-export const productMaster = pgTable('product_master', {
-  productid: serial('productid').primaryKey().notNull(),
-  productdescription: text('productdescription'),
-  productpicture: text('productpicture'),
+  validfromdate: date('validfromdate'),
+  validtodate: date('validtodate'),
+  validfromtime: time('validfromtime'),
+  validtotime: time('validtotime'),
+  expireflag: boolean('expireflag'),
+  whilestockslast : boolean('whilestockslast'),
+  offerinformation: text('offerinformation'),
 });
 
 export const userType = pgTable('user_type', {
@@ -209,26 +125,6 @@ export const validPostcodes = pgTable('valid_postcodes', {
   country: varchar('country', { length: 100 }),
   postcodearea: varchar('postcodearea', { length: 5 }),
   postcodedistrict: varchar('postcodedistrict', { length: 10 }),
-});
-
-export const questionType = pgTable('question_type', {
-  questiontypeid: serial('questiontypeid').primaryKey().notNull(),
-  questiontype: text('questiontype').notNull(),
-  questiontypedesc: text('questiontypedesc').notNull(),
-});
-
-export const questions = pgTable('questions', {
-  questionid: serial('questionid').primaryKey().notNull(),
-  questiontext: text('questiontext').notNull(),
-  questiontypeid: integer('questiontypeid').references(
-    () => questionType.questiontypeid
-  ),
-});
-
-export const options = pgTable('options', {
-  optionid: serial('optionid').primaryKey().notNull(),
-  optiontext: text('optiontext').notNull(),
-  questionid: integer('questionid').references(() => questions.questionid),
 });
 
 export const userOptions = pgTable(
@@ -256,72 +152,3 @@ export const parametersTable = pgTable('parameters', {
   paramkey: text('paramkey'),
   paramvalue: text('paramvalue'),
 });
-
-export const customerConsolidation = pgTable(
-  'customer_consolidation',
-  {
-    useridshopper: integer('useridshopper')
-      .notNull()
-      .references(() => userMaster.userid),
-    useridshop: integer('useridshop')
-      .notNull()
-      .references(() => userMaster.userid),
-    loyaltyschemeid: integer('loyaltyschemeid')
-      .notNull()
-      .references(() => loyaltySchemeMaster.loyaltyschemeid),
-    pointscollected: integer('pointscollected').notNull(),
-  },
-  (tableConsolidation) => {
-    return {
-      pk: primaryKey(
-        tableConsolidation.useridshopper,
-        tableConsolidation.useridshop,
-        tableConsolidation.loyaltyschemeid
-      ),
-    };
-  }
-);
-
-export const customerRedeem = pgTable(
-  'customer_redeem',
-  {
-    useridshopper: integer('useridshopper')
-      .notNull()
-      .references(() => userMaster.userid),
-    useridshop: integer('useridshop')
-      .notNull()
-      .references(() => userMaster.userid),
-    redeemablepoints: integer('redeemablepoints').notNull(),
-  },
-  (tableRedeem) => {
-    return {
-      pk: primaryKey(tableRedeem.useridshopper, tableRedeem.useridshop),
-    };
-  }
-);
-
-export const loyaltyInformation = pgTable('loyalty_information', {
-  loyaltyschemeid: integer('loyaltyschemeid')
-    .primaryKey()
-    .notNull()
-    .references(() => loyaltySchemeMaster.loyaltyschemeid),
-  useridshop: integer('useridshop').references(() => userMaster.userid),
-  pointscollected: numeric('pointscollected'),
-  numberofcustomers: numeric('numberofcustomers'),
-  pointsredeemed: numeric('pointsredeemed'),
-  pointstoberedeemed: numeric('pointstoberedeemed'),
-  stampstocollect: integer('stampstocollect'),
-  stampscollected: integer('stampscollected'),
-  freeitemsgiven: integer('freeitemsgiven'),
-});
-
-// CREATE TABLE IF NOT EXISTS public.users (
-//   id integer NOT NULL,
-//   otp bigint,
-//   createdat character varying(30),
-//   updatedat character varying(30),
-//   email character varying(30),
-//   isvalidated boolean,
-//   isenabled boolean,
-//   mobilenumber character varying(30)
-// );

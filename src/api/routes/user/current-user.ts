@@ -2,8 +2,8 @@ import express, { Request, Response } from 'express';
 import { eq } from 'drizzle-orm';
 
 import { dbConnect } from '../../../db/dbConnect';
-import { userMaster } from '../../../db/schema/user';
 import { currentUser } from '../../../middlewares/current-user';
+import { userMaster } from '../../../db/schema';
 
 const router = express.Router();
 

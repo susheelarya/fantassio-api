@@ -8,11 +8,9 @@ import { eq } from 'drizzle-orm';
 import { totp } from 'otplib';
 
 import { dbConnect } from '../../../db/dbConnect';
-import { userMaster } from '../../../db/schema/user';
+import { userMaster } from '../../../db/schema';
 import { validateRequest } from '../../../middlewares/validateRequest';
 import { BadRequestError } from '../../../errors/bad-request-error';
-import { currentUser } from '../../../middlewares/current-user';
-import { requireAuth } from '../../../middlewares/require-auth';
 
 const router = express.Router();
 
@@ -41,6 +39,9 @@ router.post(
       token: String(userOTP),
       secret: process.env.OTP_SECRET!,
     });
+    console.log(String(userOTP));
+    console.log(process.env.OTP_SECRET);
+    // want to say that if the userid already exists then we change the screen.
 
     if (!isValid) {
       throw new BadRequestError('OTP has expired, try again later');
@@ -78,7 +79,16 @@ router.post(
         jwt: userJwt,
       };
 
-      res.status(200).json({ response: 'OTP matched' });
+      const userObject = await db
+        .select()
+        .from(userMaster)
+        .where(eq(userMaster.userid, Number(userID)));
+
+      res.status(200).json({
+        response: 'OTP matched',
+        token: userJwt,
+        user: userObject[0],
+      });
     } else {
       throw new BadRequestError("OTP doesn't match");
     }

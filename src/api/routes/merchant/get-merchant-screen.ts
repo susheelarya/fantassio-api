@@ -7,7 +7,7 @@ import { validateRequest } from '../../../middlewares';
 import { body } from 'express-validator';
 import { BadRequestError } from '../../../errors/bad-request-error';
 import { dbConnect } from '../../../db/dbConnect';
-import { userMaster } from '../../../db/schema/user';
+import { userMaster } from '../../../db/schema';
 import { eq } from 'drizzle-orm';
 // import { MerchantRepo } from '../../repos/merchant-repo';
 // import { UserRepo } from '../../repos/user-repo';
@@ -21,7 +21,7 @@ router.post(
   '/get-merchant-screen',
   currentUser,
   requireAuth,
-  [body('userType').isString().withMessage('Please provide a userType'),],
+  [body('userType').isString().withMessage('Please provide a userType')],
   validateRequest,
   async (req: Request, res: Response) => {
     const { id } = req.currentUser!;
@@ -29,9 +29,9 @@ router.post(
 
     const userID = id;
 
+    console.log(id, 'current_user');
+
     const db = await dbConnect();
-
-
 
     if (userType !== 'S' && userType !== 'M') {
       console.log('UPDATE ' + userType);
@@ -40,21 +40,19 @@ router.post(
       throw new BadRequestError('Invalid User Type');
     }
 
-    
-
     const user = await db
       .update(userMaster)
       .set({
         usertype: userType,
         // usertype: null,
       })
-      .where(eq(userMaster.id, Number(userID)));
-    //   .returning();
+      .where(eq(userMaster.id, Number(userID)))
+      .returning();
 
     res.status(200).json({
       response: 'Success',
       userType: userType,
-      //   user,
+      user: user[0],
     });
 
     // if (userType == 'S') {

@@ -1,15 +1,478 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "8095aa41-61a1-47d5-ae56-54482d564788",
-  "prevId": "4606d810-d4c4-4707-bf75-0b128acdf5a0",
+  "id": "309a4f08-aba5-4137-8a8f-5b7c14bfa9b9",
+  "prevId": "76b8fbc9-ed30-422a-9860-34844bc91334",
   "tables": {
-    "shop_type": {
-      "name": "shop_type",
+    "customer_consolidation": {
+      "name": "customer_consolidation",
       "schema": "",
       "columns": {
-        "shoptypeid": {
-          "name": "shoptypeid",
+        "useridshopper": {
+          "name": "useridshopper",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "useridshop": {
+          "name": "useridshop",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "loyaltyschemeid": {
+          "name": "loyaltyschemeid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pointscollected": {
+          "name": "pointscollected",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "customer_consolidation_useridshopper_user_master_userid_fk": {
+          "name": "customer_consolidation_useridshopper_user_master_userid_fk",
+          "tableFrom": "customer_consolidation",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "useridshopper"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "customer_consolidation_useridshop_user_master_userid_fk": {
+          "name": "customer_consolidation_useridshop_user_master_userid_fk",
+          "tableFrom": "customer_consolidation",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "useridshop"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "customer_consolidation_loyaltyschemeid_loyalty_scheme_master_loyaltyschemeid_fk": {
+          "name": "customer_consolidation_loyaltyschemeid_loyalty_scheme_master_loyaltyschemeid_fk",
+          "tableFrom": "customer_consolidation",
+          "tableTo": "loyalty_scheme_master",
+          "columnsFrom": [
+            "loyaltyschemeid"
+          ],
+          "columnsTo": [
+            "loyaltyschemeid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "customer_consolidation_useridshopper_useridshop_loyaltyschemeid": {
+          "name": "customer_consolidation_useridshopper_useridshop_loyaltyschemeid",
+          "columns": [
+            "useridshopper",
+            "useridshop",
+            "loyaltyschemeid"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "customer_redeem": {
+      "name": "customer_redeem",
+      "schema": "",
+      "columns": {
+        "useridshopper": {
+          "name": "useridshopper",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "useridshop": {
+          "name": "useridshop",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "redeemablepoints": {
+          "name": "redeemablepoints",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "customer_redeem_useridshopper_user_master_userid_fk": {
+          "name": "customer_redeem_useridshopper_user_master_userid_fk",
+          "tableFrom": "customer_redeem",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "useridshopper"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "customer_redeem_useridshop_user_master_userid_fk": {
+          "name": "customer_redeem_useridshop_user_master_userid_fk",
+          "tableFrom": "customer_redeem",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "useridshop"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "customer_redeem_useridshopper_useridshop": {
+          "name": "customer_redeem_useridshopper_useridshop",
+          "columns": [
+            "useridshopper",
+            "useridshop"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "customer_transaction": {
+      "name": "customer_transaction",
+      "schema": "",
+      "columns": {
+        "transactionid": {
+          "name": "transactionid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "useridshopper": {
+          "name": "useridshopper",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "useridshop": {
+          "name": "useridshop",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "moneyspent": {
+          "name": "moneyspent",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pointsearned": {
+          "name": "pointsearned",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "loyaltyschemeid": {
+          "name": "loyaltyschemeid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "receiptid": {
+          "name": "receiptid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "collectedflag": {
+          "name": "collectedflag",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "datetime": {
+          "name": "datetime",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "loyalty_information": {
+      "name": "loyalty_information",
+      "schema": "",
+      "columns": {
+        "loyaltyschemeid": {
+          "name": "loyaltyschemeid",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "useridshop": {
+          "name": "useridshop",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pointscollected": {
+          "name": "pointscollected",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numberofcustomers": {
+          "name": "numberofcustomers",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pointsredeemed": {
+          "name": "pointsredeemed",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pointstoberedeemed": {
+          "name": "pointstoberedeemed",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "stampstocollect": {
+          "name": "stampstocollect",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "stampscollected": {
+          "name": "stampscollected",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "freeitemsgiven": {
+          "name": "freeitemsgiven",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "loyalty_information_loyaltyschemeid_loyalty_scheme_master_loyaltyschemeid_fk": {
+          "name": "loyalty_information_loyaltyschemeid_loyalty_scheme_master_loyaltyschemeid_fk",
+          "tableFrom": "loyalty_information",
+          "tableTo": "loyalty_scheme_master",
+          "columnsFrom": [
+            "loyaltyschemeid"
+          ],
+          "columnsTo": [
+            "loyaltyschemeid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "loyalty_information_useridshop_user_master_userid_fk": {
+          "name": "loyalty_information_useridshop_user_master_userid_fk",
+          "tableFrom": "loyalty_information",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "useridshop"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "loyalty_scheme_master": {
+      "name": "loyalty_scheme_master",
+      "schema": "",
+      "columns": {
+        "loyaltyschemeid": {
+          "name": "loyaltyschemeid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "loyaltyschemetypeid": {
+          "name": "loyaltyschemetypeid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "moneyforpoints": {
+          "name": "moneyforpoints",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pointsfrommoney": {
+          "name": "pointsfrommoney",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pointstoredeem": {
+          "name": "pointstoredeem",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "moneyfrompoints": {
+          "name": "moneyfrompoints",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "redeemfrequency": {
+          "name": "redeemfrequency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "predefined": {
+          "name": "predefined",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stampstocollect": {
+          "name": "stampstocollect",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "freeitems": {
+          "name": "freeitems",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "loyaltyschemename": {
+          "name": "loyaltyschemename",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "loyalty_scheme_master_loyaltyschemetypeid_loyalty_scheme_type_loyaltyschemetypeid_fk": {
+          "name": "loyalty_scheme_master_loyaltyschemetypeid_loyalty_scheme_type_loyaltyschemetypeid_fk",
+          "tableFrom": "loyalty_scheme_master",
+          "tableTo": "loyalty_scheme_type",
+          "columnsFrom": [
+            "loyaltyschemetypeid"
+          ],
+          "columnsTo": [
+            "loyaltyschemetypeid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "loyalty_scheme_shop_mapping": {
+      "name": "loyalty_scheme_shop_mapping",
+      "schema": "",
+      "columns": {
+        "useridshop": {
+          "name": "useridshop",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "loyaltyschemeid": {
+          "name": "loyaltyschemeid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mapid": {
+          "name": "mapid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "validfromdate": {
+          "name": "validfromdate",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validtodate": {
+          "name": "validtodate",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expireflag": {
+          "name": "expireflag",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expiremonths": {
+          "name": "expiremonths",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "redeemfrequency": {
+          "name": "redeemfrequency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "loyalty_scheme_shop_mapping_loyaltyschemeid_loyalty_scheme_master_loyaltyschemeid_fk": {
+          "name": "loyalty_scheme_shop_mapping_loyaltyschemeid_loyalty_scheme_master_loyaltyschemeid_fk",
+          "tableFrom": "loyalty_scheme_shop_mapping",
+          "tableTo": "loyalty_scheme_master",
+          "columnsFrom": [
+            "loyaltyschemeid"
+          ],
+          "columnsTo": [
+            "loyaltyschemeid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "loyalty_scheme_type": {
+      "name": "loyalty_scheme_type",
+      "schema": "",
+      "columns": {
+        "loyaltyschemetypeid": {
+          "name": "loyaltyschemetypeid",
           "type": "serial",
           "primaryKey": true,
           "notNull": true
@@ -23,6 +486,506 @@
       },
       "indexes": {},
       "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "offer_master": {
+      "name": "offer_master",
+      "schema": "",
+      "columns": {
+        "offertypeid": {
+          "name": "offertypeid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "offerid": {
+          "name": "offerid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "buyitem": {
+          "name": "buyitem",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "freeitem": {
+          "name": "freeitem",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "percentagediscount": {
+          "name": "percentagediscount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cashdiscount": {
+          "name": "cashdiscount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "minspend": {
+          "name": "minspend",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "buyproductid": {
+          "name": "buyproductid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "offerpicture": {
+          "name": "offerpicture",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validity": {
+          "name": "validity",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validtodate": {
+          "name": "validtodate",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validfromtime": {
+          "name": "validfromtime",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validtotime": {
+          "name": "validtotime",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numberoffers": {
+          "name": "numberoffers",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "firstserveflag": {
+          "name": "firstserveflag",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "virtualflag": {
+          "name": "virtualflag",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "predefined": {
+          "name": "predefined",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "validflag": {
+          "name": "validflag",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sellproductid": {
+          "name": "sellproductid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "offer_master_offertypeid_offer_type_offertypeid_fk": {
+          "name": "offer_master_offertypeid_offer_type_offertypeid_fk",
+          "tableFrom": "offer_master",
+          "tableTo": "offer_type",
+          "columnsFrom": [
+            "offertypeid"
+          ],
+          "columnsTo": [
+            "offertypeid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "offer_master_buyproductid_product_master_productid_fk": {
+          "name": "offer_master_buyproductid_product_master_productid_fk",
+          "tableFrom": "offer_master",
+          "tableTo": "product_master",
+          "columnsFrom": [
+            "buyproductid"
+          ],
+          "columnsTo": [
+            "productid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "offer_master_sellproductid_product_master_productid_fk": {
+          "name": "offer_master_sellproductid_product_master_productid_fk",
+          "tableFrom": "offer_master",
+          "tableTo": "product_master",
+          "columnsFrom": [
+            "sellproductid"
+          ],
+          "columnsTo": [
+            "productid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "offer_type": {
+      "name": "offer_type",
+      "schema": "",
+      "columns": {
+        "offertypeid": {
+          "name": "offertypeid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "options": {
+      "name": "options",
+      "schema": "",
+      "columns": {
+        "optionid": {
+          "name": "optionid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "optiontext": {
+          "name": "optiontext",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "questionid": {
+          "name": "questionid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "options_questionid_questions_questionid_fk": {
+          "name": "options_questionid_questions_questionid_fk",
+          "tableFrom": "options",
+          "tableTo": "questions",
+          "columnsFrom": [
+            "questionid"
+          ],
+          "columnsTo": [
+            "questionid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "question_type": {
+      "name": "question_type",
+      "schema": "",
+      "columns": {
+        "questiontypeid": {
+          "name": "questiontypeid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "questiontype": {
+          "name": "questiontype",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "questiontypedesc": {
+          "name": "questiontypedesc",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "questions": {
+      "name": "questions",
+      "schema": "",
+      "columns": {
+        "questionid": {
+          "name": "questionid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "questiontext": {
+          "name": "questiontext",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "questiontypeid": {
+          "name": "questiontypeid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "questions_questiontypeid_question_type_questiontypeid_fk": {
+          "name": "questions_questiontypeid_question_type_questiontypeid_fk",
+          "tableFrom": "questions",
+          "tableTo": "question_type",
+          "columnsFrom": [
+            "questiontypeid"
+          ],
+          "columnsTo": [
+            "questiontypeid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "offer_availed": {
+      "name": "offer_availed",
+      "schema": "",
+      "columns": {
+        "userid": {
+          "name": "userid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mapid": {
+          "name": "mapid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "datetime": {
+          "name": "datetime",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "offerid": {
+          "name": "offerid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "useridshop": {
+          "name": "useridshop",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "offer_availed_userid_user_master_userid_fk": {
+          "name": "offer_availed_userid_user_master_userid_fk",
+          "tableFrom": "offer_availed",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "userid"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "offer_availed_mapid_user_offer_mapping_mapid_fk": {
+          "name": "offer_availed_mapid_user_offer_mapping_mapid_fk",
+          "tableFrom": "offer_availed",
+          "tableTo": "user_offer_mapping",
+          "columnsFrom": [
+            "mapid"
+          ],
+          "columnsTo": [
+            "mapid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "offer_availed_offerid_offer_master_offerid_fk": {
+          "name": "offer_availed_offerid_offer_master_offerid_fk",
+          "tableFrom": "offer_availed",
+          "tableTo": "offer_master",
+          "columnsFrom": [
+            "offerid"
+          ],
+          "columnsTo": [
+            "offerid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "offer_availed_useridshop_user_master_userid_fk": {
+          "name": "offer_availed_useridshop_user_master_userid_fk",
+          "tableFrom": "offer_availed",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "useridshop"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "offer_availed_userid_mapid": {
+          "name": "offer_availed_userid_mapid",
+          "columns": [
+            "userid",
+            "mapid"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "parameters": {
+      "name": "parameters",
+      "schema": "",
+      "columns": {
+        "paramid": {
+          "name": "paramid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "parameter": {
+          "name": "parameter",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "paramkey": {
+          "name": "paramkey",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "paramvalue": {
+          "name": "paramvalue",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "user_log": {
+      "name": "user_log",
+      "schema": "",
+      "columns": {
+        "useridshop": {
+          "name": "useridshop",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "useridshopper": {
+          "name": "useridshopper",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "datetime": {
+          "name": "datetime",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_log_useridshop_user_master_userid_fk": {
+          "name": "user_log_useridshop_user_master_userid_fk",
+          "tableFrom": "user_log",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "useridshop"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "user_log_useridshopper_user_master_userid_fk": {
+          "name": "user_log_useridshopper_user_master_userid_fk",
+          "tableFrom": "user_log",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "useridshopper"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -264,6 +1227,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "shoptypeid": {
+          "name": "shoptypeid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
         "cashiertills": {
           "name": "cashiertills",
           "type": "integer",
@@ -278,6 +1247,18 @@
         },
         "usertype": {
           "name": "usertype",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "about": {
+          "name": "about",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "logo": {
+          "name": "logo",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -314,7 +1295,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "user_master_shoptypeid_shop_type_shoptypeid_fk": {
+          "name": "user_master_shoptypeid_shop_type_shoptypeid_fk",
+          "tableFrom": "user_master",
+          "tableTo": "shop_type",
+          "columnsFrom": [
+            "shoptypeid"
+          ],
+          "columnsTo": [
+            "shoptypeid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "user_master_userid_unique": {
@@ -325,6 +1320,420 @@
           ]
         }
       }
+    },
+    "user_offer_mapping": {
+      "name": "user_offer_mapping",
+      "schema": "",
+      "columns": {
+        "mapid": {
+          "name": "mapid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userid": {
+          "name": "userid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "offerid": {
+          "name": "offerid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "virtualobjcoord": {
+          "name": "virtualobjcoord",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validfromdate": {
+          "name": "validfromdate",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validtodate": {
+          "name": "validtodate",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validfromtime": {
+          "name": "validfromtime",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validtotime": {
+          "name": "validtotime",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expireflag": {
+          "name": "expireflag",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "whilestockslast": {
+          "name": "whilestockslast",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "offerinformation": {
+          "name": "offerinformation",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_offer_mapping_userid_user_master_userid_fk": {
+          "name": "user_offer_mapping_userid_user_master_userid_fk",
+          "tableFrom": "user_offer_mapping",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "userid"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "user_offer_mapping_offerid_offer_master_offerid_fk": {
+          "name": "user_offer_mapping_offerid_offer_master_offerid_fk",
+          "tableFrom": "user_offer_mapping",
+          "tableTo": "offer_master",
+          "columnsFrom": [
+            "offerid"
+          ],
+          "columnsTo": [
+            "offerid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "user_options": {
+      "name": "user_options",
+      "schema": "",
+      "columns": {
+        "optionid": {
+          "name": "optionid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "userid": {
+          "name": "userid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "questionid": {
+          "name": "questionid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "optiontext": {
+          "name": "optiontext",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_options_optionid_options_optionid_fk": {
+          "name": "user_options_optionid_options_optionid_fk",
+          "tableFrom": "user_options",
+          "tableTo": "options",
+          "columnsFrom": [
+            "optionid"
+          ],
+          "columnsTo": [
+            "optionid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "user_options_userid_user_master_userid_fk": {
+          "name": "user_options_userid_user_master_userid_fk",
+          "tableFrom": "user_options",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "userid"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "user_options_questionid_questions_questionid_fk": {
+          "name": "user_options_questionid_questions_questionid_fk",
+          "tableFrom": "user_options",
+          "tableTo": "questions",
+          "columnsFrom": [
+            "questionid"
+          ],
+          "columnsTo": [
+            "questionid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "user_options_optionid_userid_questionid": {
+          "name": "user_options_optionid_userid_questionid",
+          "columns": [
+            "optionid",
+            "userid",
+            "questionid"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "user_type": {
+      "name": "user_type",
+      "schema": "",
+      "columns": {
+        "usertypeid": {
+          "name": "usertypeid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "valid_postcodes": {
+      "name": "valid_postcodes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "postcode": {
+          "name": "postcode",
+          "type": "varchar(30)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "latlong": {
+          "name": "latlong",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "county": {
+          "name": "county",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "district": {
+          "name": "district",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ward": {
+          "name": "ward",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "country": {
+          "name": "country",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "postcodearea": {
+          "name": "postcodearea",
+          "type": "varchar(5)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "postcodedistrict": {
+          "name": "postcodedistrict",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "product_master": {
+      "name": "product_master",
+      "schema": "",
+      "columns": {
+        "productid": {
+          "name": "productid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "productdescription": {
+          "name": "productdescription",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "productpicture": {
+          "name": "productpicture",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "shop_type": {
+      "name": "shop_type",
+      "schema": "",
+      "columns": {
+        "shoptypeid": {
+          "name": "shoptypeid",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "stamps": {
+      "name": "stamps",
+      "schema": "",
+      "columns": {
+        "transactionid": {
+          "name": "transactionid",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "useridshopper": {
+          "name": "useridshopper",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "useridshop": {
+          "name": "useridshop",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "redeemflag": {
+          "name": "redeemflag",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "stampsbought": {
+          "name": "stampsbought",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "loyaltyschemeid": {
+          "name": "loyaltyschemeid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "datetime": {
+          "name": "datetime",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "stamps_useridshopper_user_master_userid_fk": {
+          "name": "stamps_useridshopper_user_master_userid_fk",
+          "tableFrom": "stamps",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "useridshopper"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "stamps_useridshop_user_master_userid_fk": {
+          "name": "stamps_useridshop_user_master_userid_fk",
+          "tableFrom": "stamps",
+          "tableTo": "user_master",
+          "columnsFrom": [
+            "useridshop"
+          ],
+          "columnsTo": [
+            "userid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "stamps_loyaltyschemeid_loyalty_scheme_master_loyaltyschemeid_fk": {
+          "name": "stamps_loyaltyschemeid_loyalty_scheme_master_loyaltyschemeid_fk",
+          "tableFrom": "stamps",
+          "tableTo": "loyalty_scheme_master",
+          "columnsFrom": [
+            "loyaltyschemeid"
+          ],
+          "columnsTo": [
+            "loyaltyschemeid"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
     }
   },
   "enums": {},

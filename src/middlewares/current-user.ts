@@ -45,6 +45,7 @@ export const currentUser = (
         req.headers.authorization.split(' ')[1],
         'base64'
       ).toString('utf8');
+
       token = JSON.parse(jwtParsed).jwt;
     } catch (error) {
       token = req.headers.authorization.split(' ')[1];

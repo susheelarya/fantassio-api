@@ -28,17 +28,20 @@ const cookieConfigDev: CookieSessionInterfaces.CookieSessionOptions = {
 };
 
 const cookieConfigProd: CookieSessionInterfaces.CookieSessionOptions = {
+  name: 'session',
   signed: false, // Disable encryption
   // NOTE: Only sends cookie when someone is connecting from a secure server
   secure: process.env.NODE_ENV !== 'test',
   domain: process.env.DOMAIN,
 };
 
-app.use(
-  cookieSession(
-    process.env.NODE_ENV === 'development' ? cookieConfigDev : cookieConfigProd
-  )
-);
+// app.use(
+//   cookieSession(
+//     process.env.NODE_ENV === 'development' ? cookieConfigDev : cookieConfigProd
+//   )
+// );
+
+app.use(cookieSession(cookieConfigDev));
 
 app.get<{}, MessageResponse>('/', (req, res) => {
   res.json({

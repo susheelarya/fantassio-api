@@ -1,14 +1,27 @@
-const haversine = require("haversine-distance");
+// const haversine = require("haversine-distance");
 
 
 import express, { Request, Response } from 'express';
-import { OfferRepo } from '../../repos/offer-repo';
-import { UserRepo } from '../../repos/user-repo';
-// import { dbFile } from '../../repos/db-file';
+import { dbConnect } from '../../../db/dbConnect';
+import { currentUser } from '../../../middlewares/current-user';
+import { requireAuth } from '../../../middlewares/require-auth';
+import { validateRequest } from '../../../middlewares';
+import { body } from 'express-validator';
+import { BadRequestError } from '../../../errors/bad-request-error';
+import { offerMaster, userMaster } from '../../../db/schema';
+import { eq, isNull, sql } from 'drizzle-orm';
+
 
 const router = express.Router();
 
-router.post('/offers-near-you', async (req: Request, res: Response) => {
+router.post('/offers-near-you', currentUser,
+requireAuth,
+[
+    body('coords').isNumeric().withMessage("Please make sure the coords is numeric."),
+    body('radius').isNumeric().withMessage("Please make sure the radius is numeric."),
+    body('page').isInt().withMessage("Please make sure the page is an integer.")
+],
+validateRequest, async (req: Request, res: Response) => {
     // const a = { latitude: 37.8136, longitude: 144.9631 }
     // const b = { latitude: 33.8650, longitude: 151.2094 }
     
@@ -19,7 +32,8 @@ router.post('/offers-near-you', async (req: Request, res: Response) => {
 
     console.log('offers-near-you');
 
-    const userID = req.body.userID;
+    const { id } = req.currentUser!;
+    let userID = id;
 
     let coords = req.body.coords;
 
@@ -33,21 +47,22 @@ router.post('/offers-near-you', async (req: Request, res: Response) => {
 
     // check userid is a shopper. decode coordinates, find distance
 
-    let validateUserID = await UserRepo.checkShopper(userID);
+    const db = await dbConnect();
+
+
+
+    let validateUserID = await db.select({usertype: userMaster.usertype}).from(userMaster).where(eq(userMaster.userid, Number(userID)));
+
 
     console.log(validateUserID);
 
     if (validateUserID.length == 0) {
-        return res.status(400).json({"response" : "User ID not found."})
+        throw new BadRequestError("User Type not found");
     }
 
     if (validateUserID[0]['usertype'] != 'S') {
-        return res.status(400).json({"response" : "User is not a shopper."})
+        throw new BadRequestError("User is not a shopper");
     }
-
-    if (typeof(coords) !== 'string') {
-        return res.status(400).json({"response" : "Coordinates invalid. Not a string."})
-      }
     
         // console.log(location);
         // console.log(location[0]);
@@ -61,9 +76,53 @@ router.post('/offers-near-you', async (req: Request, res: Response) => {
         .replace('[', '{')
         .replace(']', '}');
 
+    //     SELECT t.*, u.businessname, u.businesslogo, u.userid, round(cast(acos(
+    //         sin(radians($1)) 
+    //           * sin(radians(baselatitude)) 
+    //         + cos(radians($1)) 
+    //           * cos(radians(baselatitude)) 
+    //           * cos( radians($2)
+    //             - radians(baselongitude))
+    //         ) * 3963.1906 as numeric), 2) as distance
+    //  FROM user_master u LEFT JOIN user_offer_mapping o ON u.userid=o.userid INNER JOIN offer_master t ON t.offerid = o.offerid
+    //  WHERE acos(
+    //         sin(radians($1)) 
+    //           * sin(radians(baselatitude)) 
+    //         + cos(radians($1)) 
+    //           * cos(radians(baselatitude)) 
+    //           * cos( radians($2)
+    //             - radians(baselongitude))
+    //         ) * 3963.1906 <= $3 group by u.businessname, u.businesslogo, t.offertypeid, t.offerid, u.userid offset $4 limit 10 ;`,
+    //       [latitude, longitude, radius, offset]
+
         console.log(locationArray[0]);
         try {
-            let getOffers = await UserRepo.findOffers(locationArray[0], locationArray[1], radius, offset.toString());
+
+            let getOffersStmt = sql`        SELECT t.*, u.businessname, u.businesslogo, u.userid, round(cast(acos(
+                sin(radians(${locationArray[0]})) 
+                  * sin(radians(baselatitude)) 
+                + cos(radians(${locationArray[0]})) 
+                  * cos(radians(baselatitude)) 
+                  * cos( radians(${locationArray[1]})
+                    - radians(baselongitude))
+                ) * 3963.1906 as numeric), 2) as distance
+         FROM user_master u LEFT JOIN user_offer_mapping o ON u.userid=o.userid INNER JOIN offer_master t ON t.offerid = o.offerid
+         WHERE acos(
+                sin(radians(${locationArray[0]})) 
+                  * sin(radians(baselatitude)) 
+                + cos(radians(${locationArray[0]})) 
+                  * cos(radians(baselatitude)) 
+                  * cos( radians(${locationArray[1]})
+                    - radians(baselongitude))
+                ) * 3963.1906 <= ${radius} group by u.businessname, u.businesslogo, t.offertypeid, t.offerid, u.userid offset ${offset} limit 10`;
+
+            const getOffers = await db.execute(getOffersStmt);
+
+
+
+
+
+            // let getOffers = await UserRepo.findOffers(locationArray[0], locationArray[1], radius, offset.toString());
 
             console.log(getOffers);
         // could be empty
@@ -77,8 +136,8 @@ router.post('/offers-near-you', async (req: Request, res: Response) => {
 
         }
         catch (e) {
-            console.log(e)
-            return res.status(400).json({"response" : "Error in finding offers."})
+            console.log(e);
+            throw new BadRequestError("Error in finding offers");
         }
 
 });

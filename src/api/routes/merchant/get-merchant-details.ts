@@ -12,7 +12,7 @@ import {
   questions,
   options,
   questionType,
-} from '../../../db/schema/user';
+} from '../../../db/schema';
 
 const router = express.Router();
 // save merchant/shopper. usertypetable needed?

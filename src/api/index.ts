@@ -23,9 +23,12 @@ import { offersNearYouRouter } from './routes/offer/offers-near-you';
 import { createOfferRouter } from './routes/offer/create-offer';
 import { saveOfferRouter } from './routes/offer/save-offer';
 import { getOfferInformationRouter } from './routes/offer/get-offer-information';
+import { loadOfferRouter } from './routes/offer/load-offers';
+import { viewOfferRouter } from './routes/offer/view-offer';
 import { createLoyaltyRouter } from './routes/loyalty/create-loyalty-scheme';
 import { saveLoyaltyRouter } from './routes/loyalty/save-loyalty-scheme';
 import { viewLoyaltyRouter } from './routes/loyalty/view-loyalty-scheme';
+import { loadLoyaltyRouter } from './routes/loyalty/load-loyalty-scheme';
 import { getShopInformationRouter } from './routes/shop/get-shop-information';
 import { shopNearYouRouter } from './routes/shop/shop-near-you';
 import { getCurrentUserRouter } from './routes/user/current-user';
@@ -65,15 +68,18 @@ router.use(merchantRoute, getMerchantRouter);
 router.use(merchantRoute, saveMerchantRouter);
 
 // // NOTE: Offer Routes
-// router.use(offerRoute, offersNearYouRouter);
-// router.use(offerRoute, createOfferRouter);
-// router.use(offerRoute, saveOfferRouter);
-// router.use(offerRoute, getOfferInformationRouter);
+router.use(offerRoute, offersNearYouRouter);
+router.use(offerRoute, createOfferRouter);
+router.use(offerRoute, saveOfferRouter);
+router.use(offerRoute, getOfferInformationRouter);
+router.use(offerRoute, loadOfferRouter);
+router.use(offerRoute, viewOfferRouter);
 
 // // NOTE: Loyalty Routes
 router.use(loyaltyRoute, createLoyaltyRouter);
 router.use(loyaltyRoute, saveLoyaltyRouter);
 router.use(loyaltyRoute, viewLoyaltyRouter);
+router.use(loyaltyRoute, loadLoyaltyRouter);
 
 // // NOTE: Shop Routes
 // router.use(shopRoute, getShopInformationRouter);
