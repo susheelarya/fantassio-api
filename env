@@ -1,5 +1,19 @@
-NODE_ENV=development
+#NODE_ENV=development
 PORT=3001
-DRIZZLE_DATABASE_URL=postgres://traxx10:axcLJV9ewCs3@ep-falling-dust-26774445.eu-central-1.aws.neon.tech/neondb
-OTP_SECRET=Y6Y86KZDA67Tmygw
-JWT_KEY=d47hRNjCpGiB3YqJ7jis
+#DRIZZLE_DATABASE_URL=postgres://127.0.0.1/root
+#OTP_SECRET=Y6Y86KZDA67Tmygw
+#JWT_KEY=d47hRNjCpGiB3YqJ7jis
+
+
+import { drizzle } from "drizzle-orm/mysql2";
+import mysql from "mysql2/promise";
+ 
+const connection = await mysql.createConnection({
+  host: "127.0.0.1",
+  user: "root",
+  database: "stk11L",
+  password:"Fr000glers!"
+});
+ 
+const db = drizzle(connection);
+

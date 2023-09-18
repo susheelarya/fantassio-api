@@ -61,9 +61,8 @@ router.post(
     //   throw new BadRequestError('Mobile Number not valid.');
     // }
 
-    var otpMessage = otp + ' is your Hichers One Time Password (OTP).';
-    console.log(otpMessage.length);
-    console.log(otpMessage);
+    var otpMessage = otp + ' is your Fantassio One Time Password (OTP).'
+    
 
     //remove plus from countryCode
 
