@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 
-import { UserRepo } from '../../repos/user-repo';
+import { UserRepo } from '../../../repos/user-repo';
 
 const router = express.Router();
 

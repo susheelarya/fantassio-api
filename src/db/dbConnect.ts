@@ -1,14 +1,24 @@
-import { drizzle } from 'drizzle-orm/node-mysql2';
-import mysql from mysql2/promiseHooks;
-
-
-
-const connection = await mysql.createConnection({
-  host: "host",
-  user: "user",
-  database: "database",
-  password:"Fr000glers!"
-});
+import { drizzle } from "drizzle-orm/mysql2";
+import mysql from "mysql2/promise";
  
-const db = drizzle(connection);
+export const dbConnect =  async () => {
+ return  await mysql.createConnection({
+    port: 3306,
+    host: "localhost",
+    user: "root",
+    database: "stk11L",
+    password:"Fr000glers!",
+    multipleStatements: true
+  }).then(connect => {
+    const client = drizzle(connect);
+
+    return client
+  })
+}
+
+dbConnect().then(() => console.log("connected"))
+
+
+ 
+
 

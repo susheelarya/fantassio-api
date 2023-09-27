@@ -1,5 +1,5 @@
 import { dbConnect } from './src/db/dbConnect';
-import { migrate } from 'drizzle-orm/node-postgres/migrator';
+import { migrate } from 'drizzle-orm/mysql2/migrator';
 
 require('dotenv').config();
 

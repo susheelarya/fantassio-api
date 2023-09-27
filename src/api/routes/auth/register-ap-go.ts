@@ -17,7 +17,7 @@ const router = express.Router();
 router.post(
   '/register-ap-go',
   [
-    body('authtkn').notEmpty().withMessage('Please provide a valid auth token'),
+    body('authtkn').isString().notEmpty().withMessage('Please provide a valid auth token'),
     body('authTknSecret')
       .notEmpty()
       .withMessage('Please provide a valid auth token secret'),
@@ -49,7 +49,7 @@ router.post(
     var authTknUserID = req.body.authTknUserID;
     var authTknName = req.body.authTknName;
     var authTknFamilyName = req.body.authTknFamilyName;
-    var mobileDevice = req.body.mobileDevice;
+    // var mobileDevice = req.body.mobileDevice;
     var pushNotificationToken = req.body.pushNotificationToken;
     var loggedInWith = req.body.loggedInWith;
 
@@ -72,91 +72,47 @@ router.post(
         authTknUserID = authTknUserID + '@gmail.com';
       }
       const findUser = await db
-        .select({ userid: sql<number>`max(${userMaster.userid})` })
+        .select({ userid: sql<number>`max(${userMaster.userId})` })
         .from(userMaster)
-        .where(eq(userMaster.googleAuthTknUserID, authTknUserID));
+        .where(eq(userMaster.socialUserId, authTknUserID));
       // SELECT max(userid) userid FROM user_master WHERE "googleAuthTknUserID" = $1
 
       if (findUser[0].userid == null) {
-        const user = await db.insert(userMaster).values({
-          googleAuthTkn: authtkn,
-          googleAuthTknSecret: authTknSecret,
-          googleAuthTknUserID: authTknUserID,
-          googleAuthTknUserName: authTknUserName,
-          loggedInWith: loggedInWith,
-          mobileDevice: mobileDevice,
-          pushNotificationToken: pushNotificationToken,
-          isenabled: true,
-          isvalidated: false,
-        });
+        const statement = sql`insert into userMaster(socialAuthToken,socialAuthTokenSecret,socialUserId,socialUserName,loggedInWith,pushNotificationToken,isUserEnabled,isUserValidated) values (${authtkn}, ${authTknSecret}, ${authTknUserID}, ${authTknUserName}, ${loggedInWith}, ${pushNotificationToken},${true},${false})`
+        const user=await db.execute(statement);
+        }
         res
           .status(200)
           .json({ response: 'Success', userID: findUser[0].userid });
-      }
+
       if (findUser[0].userid != null) {
-        /* const user = await UserRepo.updateGoogleID( authtkn, authTknSecret, authTknUserID, authTknUserID, authTknUserName, loggedInWith, mobileDevice,pushNotificationToken);
-         */
         res
           .status(200)
-          .json({ response: 'Success', userID: findUser[0].userid });
+          .json({ response: 'Welcome Back', userID: findUser[0].userid });
       }
     }
+
     if (loggedInWith == 'A') {
       console.log('Inside Apple');
       const findUser = await db
-        .select({ userid: sql<number>`max(${userMaster.userid})` })
+        .select({ userid: sql<number>`max(${userMaster.userId})` })
         .from(userMaster)
-        .where(eq(userMaster.appleauthtkn, authtkn));
+        .where(eq(userMaster.socialAuthToken, authtkn));
       console.log('userid ' + findUser[0].userid);
       if (findUser[0].userid == null) {
-        const user = await db.insert(userMaster).values({
-          appleauthtkn: authtkn,
-          appleAuthTknSecret: authTknSecret,
-          appleAuthTknUserID: authTknUserID,
-          appleAuthTknUserName: authTknUserName,
-          loggedInWith: loggedInWith,
-          mobileDevice: mobileDevice,
-          pushNotificationToken: pushNotificationToken,
-          isenabled: true,
-          isvalidated: false,
-        });
-
+        const statement = sql`insert into userMaster(socialAuthToken,socialAuthTokenSecret,socialUserId,socialUserName,loggedInWith,pushNotificationToken,isUserEnabled,isUserValidated) values (${authtkn}, ${authTknSecret}, ${authTknUserID}, ${authTknUserName}, ${loggedInWith}, ${pushNotificationToken},${true},${false})`
+        const user=await db.execute(statement);
         res
           .status(200)
           .json({ response: 'Success', userID: findUser[0].userid });
       }
       if (findUser[0].userid != null) {
-        /*       const user = await UserRepo.updateAppleID( authtkn, authTknSecret, authTknUserID, authTknUserID, authTknUserName, loggedInWith, mobileDevice,pushNotificationToken);
-         */
-        res
+       res
           .status(200)
-          .json({ response: 'Success', userID: findUser[0].userid });
+          .json({ response: 'Welcome Back', userID: findUser[0].userid });
       }
     }
   }
 );
-/*
-    if (finduser.userid == null)   {  
-        console.log("INSERT "+finduser.userid); 
-    const user = await UserRepo.insert(numberTo, otp.toString());
-    res.status(202).json({"response" : "Success", "userID" : user.userid});
 
-    }
-    if (finduser.userid != null)   { 
-        console.log("UPDATE " + finduser.userid);
-        const user = await UserRepo.updateReturnUser(finduser.userid.toString(), otp.toString());
-        res.status(202).json({"response" : "Success", "userID" : finduser.userid});
-
-        }
-
-
-
-    const axios = require('axios');
-
-    // axios.get(requesturl, { json: true }, (err: any, res: any, body: any) => {
-    // if (err) { return console.log(err); }
-    });
-    //res.status(202).json({"response" : "Success", "userID" : user.userid});
-
-*/
 export { router as registerapgoRouter };

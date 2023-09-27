@@ -3,17 +3,18 @@ import axios from 'axios';
 
 import { dbConnect } from '../../../db/dbConnect';
 import { userMaster } from '../../../db/schema';
-import { eq } from 'drizzle-orm';
+import { eq,sql } from 'drizzle-orm';
 import { totp } from 'otplib';
 
 import { body } from 'express-validator';
 
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
 
 import { validateRequest } from '../../../middlewares/validateRequest';
 import { BadRequestError } from '../../../errors/bad-request-error';
 
 const router = express.Router();
+console.log('generate-otp1');
 
 var removePlus = (code: string) => {
   let firstChar = code.charAt(0);
@@ -42,17 +43,22 @@ router.post(
     // Valid for 3 minutes
     totp.options = { digits: 4, step: 180 };
 
-    const token = totp.generate(process.env.OTP_SECRET!);
-
+        const token = totp.generate(process.env.OTP_SECRET!);
+console.log(token)
     // Connect to DB
     const db = await dbConnect();
 
-    console.log('generate-otp');
+    console.log('generate-otp3');
+
     var countryCode = req.body.countryCode;
     var mobileNumber = req.body.mobileNumber;
 
     // var otp = randomNumber(1001, 9999);
+
     const otp = token;
+
+    console.log(countryCode);
+    console.log(mobileNumber);
 
     console.log(typeof countryCode);
     console.log(typeof mobileNumber);
@@ -82,23 +88,21 @@ router.post(
     console.log(numberTo);
 
     const finduser = await db
-      .select()
+      .select({
+        userId: userMaster.userId
+      })
       .from(userMaster)
-      .where(eq(userMaster.mobilenumber, numberTo));
+      .where(eq(userMaster.userMobile, mobileNumber));
 
-    console.log(finduser);
     // User exists
     if (finduser.length === 0) {
-      // const user = await UserRepo.insert(numberTo, otp.toString());
-      const user = await db
-        .insert(userMaster)
-        .values({
-          mobilenumber: numberTo,
-          otp: otp.toString(),
-          isvalidated: false,
-          loggedInWith: 'M',
-        })
-        .returning();
+     // const user = await db.insert(numberTo, otp.toString());
+     // let g:any = 0
+      // const user = await db.insert(userMaster).values({userOtp:otp });
+      const statement = sql`insert into userMaster(user_mobile,user_country_code,user_otp) values (${mobileNumber},${countryCode},${otp});
+      `
+      const arya=await db.execute(statement);
+
 
       const requesturl =
         'https://api.clickatell.com/http/sendmsg?user=babblers&password=Pr3sident11&api_id=3620030&to=' +
@@ -111,17 +115,18 @@ router.post(
 
       res.status(200).json({
         response: 'Success',
-        userID: user[0].userid,
-        otp: otp,
+        userId: arya[0].insertId,
+        userOtp: otp, 
       });
     }
+console.log(finduser.length)
 
     if (finduser.length > 0) {
       await db
         .update(userMaster)
-        .set({ otp: otp.toString() })
-        .where(eq(userMaster.userid, finduser[0].userid))
-        .returning();
+        .set({ userOtp: otp.toString() })
+        .where(eq(userMaster.userId, finduser[0].userId))
+        ;
 
       const requesturl =
         'https://api.clickatell.com/http/sendmsg?user=babblers&password=Pr3sident11&api_id=3620030&to=' +
@@ -133,7 +138,7 @@ router.post(
 
       res.status(200).json({
         response: 'Success',
-        userID: finduser[0].userid,
+        userId: finduser[0].userId,
         otp: otp,
       });
     }

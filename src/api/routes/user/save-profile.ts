@@ -16,9 +16,9 @@ import { currentUser } from '../../../middlewares/current-user';
 import { requireAuth } from '../../../middlewares/require-auth';
 import { validateRequest } from '../../../middlewares';
 import { BadRequestError } from '../../../errors/bad-request-error';
-import { userMaster, shopType } from '../../../db/schema';
+import { userMaster } from '../../../db/schema';
 
-import { and, eq } from 'drizzle-orm';
+import { eq,sql } from 'drizzle-orm';
 import { body } from 'express-validator';
 
 router.post(
@@ -41,15 +41,15 @@ router.post(
     body('shopType')
       .optional()
       .isString()
-      .withMessage('Please provide a shopType that is numeric'),
+      .withMessage('Please provide a shopType that is string'),
     body('cashierTills')
       .optional()
       .isInt()
-      .withMessage('Please provide a cashierTills that is numeric'),
+      .withMessage('Please provide a cashierTills that is integer'),
     body('interests')
       .optional()
       .isString()
-      .withMessage('Please provide a interests that is numeric'),
+      .withMessage('Please provide a interests that is string'),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
@@ -60,45 +60,24 @@ router.post(
     let businessName = req.body.nameOfBusiness!;
     let postcode = req.body.postcode!;
     let aboutInfo = req.body.about!; // required for merchant.
-    let cashierTills = req.body.cashierTills!;
-    let interests = req.body.interests!;
+   
 
     const db = await dbConnect();
-    const userTypeCheck = await db
-      .select({ userTypeField: userMaster.usertype })
-      .from(userMaster)
-      .where(eq(userMaster.userid, Number(userID)));
-
+    
+    
     if (
-      typeof userTypeCheck == 'undefined' ||
-      userTypeCheck.length == 0 ||
-      userTypeCheck == null
-    ) {
-      throw new BadRequestError('User Type not found');
-    }
-    var userType = userTypeCheck[0].userTypeField;
-
-    console.log(userType);
-
-    if (
-      userType == 'M' &&
       logo != 'undefined' &&
       businessName != 'undefined' &&
       postcode != 'undefined' &&
-      aboutInfo != 'undefined' &&
-      cashierTills != 'undefined'
+      aboutInfo != 'undefined'
     ) {
       try {
         const updateProfile = await db
           .update(userMaster)
           .set({
-            businessname: businessName,
-            businesslogo: logo,
-            about: aboutInfo,
-            cashiertills: cashierTills,
-            postcode: postcode,
+            userImageName: logo,
           })
-          .where(eq(userMaster.userid, Number(userID)));
+          .where(eq(userMaster.userId, Number(userID)));
         // const updateProfile = await UserRepo.updateProfileMerchant(userID, logo, businessName, shopTypeID, cashierTills, postcode);
       } catch (error) {
         console.log(error);
@@ -108,20 +87,7 @@ router.post(
     // UPDATE user_master SET interests = $1 WHERE userid = $2',
     //   [interests, userID]
     // )!;
-    else if (userType == 'S' && interests != 'undefined') {
-      try {
-        const updateProfile = await db
-          .update(userMaster)
-          .set({ interests: interests })
-          .where(eq(userMaster.userid, Number(userID)));
-      } catch (error) {
-        console.log(error);
-        throw new BadRequestError('Error in updating profile');
-      }
-    } else {
-      throw new BadRequestError('Invalid fields');
-    }
-
+  
     return res.status(200).json({ response: 'Success' });
   }
 );

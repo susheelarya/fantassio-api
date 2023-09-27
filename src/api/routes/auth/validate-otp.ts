@@ -4,7 +4,7 @@ import { body } from 'express-validator';
 
 import jwt from 'jsonwebtoken';
 
-import { eq } from 'drizzle-orm';
+import { eq,sql } from 'drizzle-orm';
 import { totp } from 'otplib';
 
 import { dbConnect } from '../../../db/dbConnect';
@@ -41,6 +41,7 @@ router.post(
     });
     console.log(String(userOTP));
     console.log(process.env.OTP_SECRET);
+    console.log(process.env.JWT_KEY);
     // want to say that if the userid already exists then we change the screen.
 
     if (!isValid) {
@@ -48,9 +49,9 @@ router.post(
     }
 
     const users = await db
-      .select({ otp: userMaster.otp })
+      .select({ otp: userMaster.userOtp })
       .from(userMaster)
-      .where(eq(userMaster.userid, Number(userID)));
+      .where(eq(userMaster.userId, Number(userID)));
 
     const dbOTP = users[0];
 
@@ -59,13 +60,8 @@ router.post(
     }
 
     if (userOTP === dbOTP.otp) {
-      await db
-        .update(userMaster)
-        .set({
-          otp: 'Verified',
-          isvalidated: true,
-        })
-        .where(eq(userMaster.userid, Number(userID)));
+      const statement = sql`update userMaster set user_otp = ${'Verified'}, is_user_validated=${true} where user_id =${userID}`
+      const user=await db.execute(statement);
 
       const userJwt = jwt.sign(
         {
@@ -82,7 +78,7 @@ router.post(
       const userObject = await db
         .select()
         .from(userMaster)
-        .where(eq(userMaster.userid, Number(userID)));
+        .where(eq(userMaster.userId, Number(userID)));
 
       res.status(200).json({
         response: 'OTP matched',

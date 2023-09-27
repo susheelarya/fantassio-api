@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1693230916980,
+      "tag": "0000_concerned_vengeance",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1693560847581,
+      "tag": "0001_chilly_quasimodo",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1693585703364,
+      "tag": "0002_hot_big_bertha",
+      "breakpoints": true
+    }
+  ]
+}

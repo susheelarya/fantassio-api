@@ -14,6 +14,8 @@ import { saveUserTypeRouter } from './routes/user/save-user-type';
 import { generateOTPRouter } from './routes/auth/generate-otp';
 import { registerapgoRouter } from './routes/auth/register-ap-go';
 import { validateOTPRouter } from './routes/auth/validate-otp';
+
+/*
 import { locationCoordRouter } from './routes/location/get-location-by-coords';
 import { postCoordRouter } from './routes/location/get-location-by-post';
 import { merchantScreenRouter } from './routes/merchant/get-merchant-screen';
@@ -31,6 +33,7 @@ import { viewLoyaltyRouter } from './routes/loyalty/view-loyalty-scheme';
 import { loadLoyaltyRouter } from './routes/loyalty/load-loyalty-scheme';
 import { getShopInformationRouter } from './routes/shop/get-shop-information';
 import { shopNearYouRouter } from './routes/shop/shop-near-you';
+*/
 import { getCurrentUserRouter } from './routes/user/current-user';
 
 export const userRoute = '/user';
@@ -42,7 +45,7 @@ export const shopRoute = '/shop';
 export const loyaltyRoute = '/loyalty';
 
 const router = express.Router();
-
+/*
 // NOTE: User Routes
 // router.use(userRoute, newUserRouter);
 router.use(userRoute, getAllUsersRouter);
@@ -52,38 +55,17 @@ router.use(userRoute, getCurrentUserRouter);
 // router.use(userRoute, getProfileRouter);
 router.use(userRoute, saveProfileRouter);
 // router.use(userRoute, saveUserTypeRouter);
-
+*/
 // NOTE: Auth Routes
 router.use(authRoute, generateOTPRouter);
 router.use(authRoute, registerapgoRouter);
 router.use(authRoute, validateOTPRouter);
 
-// // NOTE: Location Routes
-router.use(locationRoute, locationCoordRouter);
-router.use(locationRoute, postCoordRouter);
+router.use(userRoute, getProfileRouter);
 
-// // NOTE: Merchant Routes
-router.use(merchantRoute, merchantScreenRouter);
-router.use(merchantRoute, getMerchantRouter);
-router.use(merchantRoute, saveMerchantRouter);
-
-// // NOTE: Offer Routes
-router.use(offerRoute, offersNearYouRouter);
-router.use(offerRoute, createOfferRouter);
-router.use(offerRoute, saveOfferRouter);
-router.use(offerRoute, getOfferInformationRouter);
-router.use(offerRoute, loadOfferRouter);
-router.use(offerRoute, viewOfferRouter);
-
-// // NOTE: Loyalty Routes
-router.use(loyaltyRoute, createLoyaltyRouter);
-router.use(loyaltyRoute, saveLoyaltyRouter);
-router.use(loyaltyRoute, viewLoyaltyRouter);
-router.use(loyaltyRoute, loadLoyaltyRouter);
-
-// // NOTE: Shop Routes
-// router.use(shopRoute, getShopInformationRouter);
-// router.use(shopRoute, shopNearYouRouter);
+// NOTE: Location Routes
+// router.use(locationRoute, locationCoordRouter);
+// router.use(locationRoute, postCoordRouter);
 
 router.get<{}, MessageResponse>('/', (req, res) => {
   res.json({

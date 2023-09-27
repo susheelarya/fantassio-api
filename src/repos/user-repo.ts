@@ -1,6 +1,9 @@
-import { pgClient } from '../pgClient';
+// import toCamelCase from './utils/to-camel-case';
+import { eq,sql } from 'drizzle-orm';
 
-import toCamelCase from './utils/to-camel-case';
+import { dbConnect } from '../../src/db/dbConnect';
+import { userMaster } from '../../src/db/schema';
+
 
 export interface User {
   id: number;
@@ -13,22 +16,24 @@ export interface User {
   mobileNumber: string;
 }
 
-class UserRepo {
+
+async (req: Request, res: Response) => {
+const db = await dbConnect();
+
+class UserRepo{
   static async find() {
-    const { rows } = await pgClient.query('SELECT * FROM user_master;')!;
-
-    return toCamelCase(rows);
+    const statement=sql`select * from user_master`
+    const rows = await db.execute(statement);
   }
-
-  static async findById(id: string) {
-    const { rows } = await pgClient.query(
-      `SELECT * FROM user_master WHERE userid = $1`,
-      [id]
-    )!;
-
-    return toCamelCase(rows)[0];
+    static async findById(id: string) {
+    const statement=sql`select * from user_master where user_id = ${id}`
+    const rows = await db.execute(statement);
+    return rows;
   }
+}
+export { UserRepo };
 
+/*
   static async findByNumber(mobnumber: string) {
     console.log('Inside findByNumber ' + mobnumber);
     const { rows } = await pgClient.query(
@@ -95,14 +100,14 @@ class UserRepo {
     )!;
     return toCamelCase(rows)[0];
   }
-  /*
-  static async updateAppleID(authtkn: string, authTknSecret: string, email: string, authTknUserID: string, authTknUserName: string, loggedInWith: string, mobileDevice: string, pushNotificationToken: string) {
-    const { rows } = await pgClient.query(
-      `UPDATE user_master SET (appleauthtkn, appleAuthTknSecret, email, appleAuthTknUserID, appleAuthTknUserName, "loggedInWith", "mobileDevice", "pushNotificationToken", isenabled, isvalidated) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *;`,
-      [authtkn, authTknSecret, email, authTknUserID, authTknUserName, loggedInWith, mobileDevice, pushNotificationToken, "Y",  "N", "A"]
-    )!;
-  }
-*/
+  
+  // static async updateAppleID(authtkn: string, authTknSecret: string, email: string, authTknUserID: string, authTknUserName: string, loggedInWith: string, mobileDevice: string, pushNotificationToken: string) {
+  //   const { rows } = await pgClient.query(
+  //     `UPDATE user_master SET (appleauthtkn, appleAuthTknSecret, email, appleAuthTknUserID, appleAuthTknUserName, "loggedInWith", "mobileDevice", "pushNotificationToken", isenabled, isvalidated) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *;`,
+  //     [authtkn, authTknSecret, email, authTknUserID, authTknUserName, loggedInWith, mobileDevice, pushNotificationToken, "Y",  "N", "A"]
+  //   )!;
+  // }
+
 
   static async insertGoogleID(
     authtkn: string,
@@ -132,15 +137,15 @@ class UserRepo {
     return toCamelCase(rows)[0];
   }
 
-  /*
-    static async updateGoogleID(authtkn: string, authTknSecret: string, email: string, authTknUserID: string, authTknUserName: string, loggedInWith: string, mobileDevice: string, pushNotificationTaken: string) {
-      const { rows } = await pgClient.query(
-        `UPDATE user_master SET (googleauthtkn, googleAuthTknSecret, email, googleAuthTknUserID, googleAuthTknUserName, loggedInWith, mobileDevice, pushNotificationTaken, isenabled, isvalidated) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *;`,
-        [authtkn, authTknSecret, email, authTknUserID, authTknUserName, loggedInWith, mobileDevice, pushNotificationTaken, "Y",  "N", "G"]
-      )!;
   
-    }
-    */
+    // static async updateGoogleID(authtkn: string, authTknSecret: string, email: string, authTknUserID: string, authTknUserName: string, loggedInWith: string, mobileDevice: string, pushNotificationTaken: string) {
+    //   const { rows } = await pgClient.query(
+    //     `UPDATE user_master SET (googleauthtkn, googleAuthTknSecret, email, googleAuthTknUserID, googleAuthTknUserName, loggedInWith, mobileDevice, pushNotificationTaken, isenabled, isvalidated) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *;`,
+    //     [authtkn, authTknSecret, email, authTknUserID, authTknUserName, loggedInWith, mobileDevice, pushNotificationTaken, "Y",  "N", "G"]
+    //   )!;
+  
+    // }
+    
 
   static async updateReturnUser(userID: string, otp: string) {
     const rows = await pgClient.query(
@@ -317,6 +322,4 @@ class UserRepo {
       [interests, userID]
     )!;
   }
-}
-
-export { UserRepo };
+*/
