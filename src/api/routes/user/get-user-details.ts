@@ -6,23 +6,10 @@ import { validateRequest } from '../../../middlewares';
 import { body } from 'express-validator';
 import { BadRequestError } from '../../../errors/bad-request-error';
 import { and, eq } from 'drizzle-orm';
-import { favouritesTable, shopType, userMaster, userTypeMapping } from '../../../db/schema';
+// import { favouritesTable, shopType, userMaster, userTypeMapping } from '../../../db/schema';
 
 
 const router = express.Router();
-
-// {“Subscription”: “API Name”}, {“Loyalties”: “API Name”},
-// {“Order via Whatsapp”: “API Name”},
-// {“ Switch to Cashier”: “switch-user-type”},
-// // merchant only
-// // shopper only
-// // shopper only
-// // shopper and cashier
-// {“ Switch to Merchant”: “switch-user-type”},
-// {“ Switch to Shopper”: “switch-user-type”},
-// {“Join Shop”: “join-shop-screen”},
-// {“Approve Cashier”: “approve-cashier-screen”}, // merchant {“Create Your Own Shop”: “get-merchant-details”}, // shopper
-// {“Add Cashier”: “add-cashier-screen”} // merchant
 
 router.post('/get-user-details', currentUser,
 requireAuth,

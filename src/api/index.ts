@@ -15,6 +15,13 @@ import { generateOTPRouter } from './routes/auth/generate-otp';
 import { registerapgoRouter } from './routes/auth/register-ap-go';
 import { validateOTPRouter } from './routes/auth/validate-otp';
 
+
+import { gameListRouter } from './routes/live/game-list';
+import { marketDetailsRouter } from './routes/live/market-details';
+import { marketListRouter } from './routes/live/market-list';
+import { getQotdsRouter } from './routes/fassio/get-qotds';
+import { getQotdDetailsRouter } from './routes/fassio/get-qotd-details';
+
 /*
 import { locationCoordRouter } from './routes/location/get-location-by-coords';
 import { postCoordRouter } from './routes/location/get-location-by-post';
@@ -38,6 +45,8 @@ import { getCurrentUserRouter } from './routes/user/current-user';
 
 export const userRoute = '/user';
 export const authRoute = '/auth';
+export const liveRoute = '/live';
+export const fassioRoute = '/fassio';
 export const locationRoute = '/location';
 export const merchantRoute = '/merchant';
 export const offerRoute = '/offer';
@@ -62,6 +71,14 @@ router.use(authRoute, registerapgoRouter);
 router.use(authRoute, validateOTPRouter);
 
 router.use(userRoute, getProfileRouter);
+
+router.use(liveRoute, gameListRouter);
+router.use(liveRoute, marketDetailsRouter);
+router.use(liveRoute, marketListRouter);
+
+router.use(fassioRoute, getQotdsRouter);
+router.use(fassioRoute, getQotdDetailsRouter);
+
 
 // NOTE: Location Routes
 // router.use(locationRoute, locationCoordRouter);

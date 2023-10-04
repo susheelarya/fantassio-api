@@ -29,7 +29,7 @@ var removePlus = (code: string) => {
 // ERRORS : check data type. NOT CHECKING FOR VALID PHONE NUMBER. FRONT END CHECK FOR DIGITS!
 
 router.post(
-  '/generate-otp',
+  '/game-list',
   [
     body('countryCode')
       .notEmpty()
@@ -99,9 +99,10 @@ console.log(token)
      // const user = await db.insert(numberTo, otp.toString());
      // let g:any = 0
       // const user = await db.insert(userMaster).values({userOtp:otp });
-      const statement = sql`insert into userMaster(user_mobile,user_country_code,user_otp) values (${mobileNumber},${countryCode},${otp});`
-
+      const statement = sql`insert into userMaster(user_mobile,user_country_code,user_otp) values (${mobileNumber},${countryCode},${otp});
+      `
       const arya=await db.execute(statement);
+
 
       const requesturl =
         'https://api.clickatell.com/http/sendmsg?user=babblers&password=Pr3sident11&api_id=3620030&to=' +

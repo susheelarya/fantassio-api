@@ -1,6 +1,32 @@
-import { mysqlTable, mysqlSchema, AnyMySqlColumn, primaryKey, int, decimal, datetime, varchar, bigint, float, date, tinyint } from "drizzle-orm/mysql-core"
+import { mysqlTable, mysqlSchema, AnyMySqlColumn, primaryKey, unique, int, varchar, decimal, datetime, bigint, float, date, tinyint } from "drizzle-orm/mysql-core"
 import { sql } from "drizzle-orm"
 
+
+export const generalParameterMaster = mysqlTable("general_parameter_master", {
+	generalParameterId: int("general_parameter_id").autoincrement().notNull(),
+	parameter: varchar("parameter", { length: 100 }),
+	parameterKey: varchar("parameter_key", { length: 100 }),
+	parameterValue: varchar("parameter_value", { length: 2000 }),
+	parameterFlag: varchar("parameter_flag", { length: 10 }),
+},
+(table) => {
+	return {
+		generalParameterMasterGeneralParameterId: primaryKey(table.generalParameterId),
+		uqGeneralParameterMaster: unique("uq_general_parameter_master").on(table.parameter, table.parameterKey),
+	}
+});
+
+export const qotdMaster = mysqlTable("qotdMaster", {
+	id: int("id").autoincrement().notNull(),
+	queid: varchar("queid", { length: 4 }),
+	quedesc: varchar("quedesc", { length: 500 }),
+	qflag: varchar("qflag", { length: 10 }),
+},
+(table) => {
+	return {
+		qotdMasterId: primaryKey(table.id),
+	}
+});
 
 export const resultsAvg = mysqlTable("resultsAvg", {
 	symbol: int("symbol").notNull(),
@@ -78,8 +104,8 @@ export const stockPrice = mysqlTable("stockPrice", {
 	priceChange: decimal("priceChange", { precision: 10, scale: 2 }),
 	percChange: decimal("percChange", { precision: 10, scale: 2 }),
 	weightedPrice: decimal("weightedPrice", { precision: 10, scale: 2 }),
-	"52WeekHigh": decimal("52weekHigh", { precision: 10, scale: 2 }),
-	"52WeekLow": decimal("52weekLow", { precision: 10, scale: 2 }),
+	week52High: decimal("week52High", { precision: 10, scale: 2 }),
+	week52Low: decimal("week52Low", { precision: 10, scale: 2 }),
 	fantassioPrice: decimal("fantassioPrice", { precision: 10, scale: 2 }),
 },
 (table) => {
@@ -113,7 +139,7 @@ export const userMaster = mysqlTable("userMaster", {
 	userEmail: varchar("user_email", { length: 100 }),
 	userMobile: bigint("user_mobile", { mode: "number" }),
 	userCountryCode: varchar("user_country_code", { length: 5 }),
-	userOtp: varchar("user_otp", { length: 10 }).default(''),
+	userOtp: varchar("user_otp", { length: 10 }),
 	isUserValidated: varchar("is_user_validated", { length: 1 }),
 	isUserEnabled: varchar("is_user_enabled", { length: 1 }),
 	userPassword: varchar("user_password", { length: 100 }),
@@ -154,6 +180,11 @@ export const userMaster = mysqlTable("userMaster", {
 	currSchemeValidUpto: datetime("curr_scheme_valid_upto", { mode: 'string'}),
 	currSchemeAmtPaid: float("curr_scheme_amt_paid"),
 	currSchemePurchaseDate: datetime("curr_scheme_purchase_date", { mode: 'string'}),
+	aadharImageFront: varchar("aadhar_image_front", { length: 200 }),
+	aadharImageBack: varchar("aadhar_image_back", { length: 200 }),
+	panImageFront: varchar("pan_image_front", { length: 200 }),
+	isAadharValidated: varchar("is_aadhar_validated", { length: 1 }),
+	isPanValidated: varchar("is_pan_validated", { length: 1 }),
 },
 (table) => {
 	return {
