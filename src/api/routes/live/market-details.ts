@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import axios from 'axios';
 
 import { dbConnect } from '../../../db/dbConnect';
-import { userMaster } from '../../../db/schema';
+import { userMaster, validMarkets } from '../../../db/schema';
 import { generalParameterMaster } from '../../../db/schema';
 import { eq,sql } from 'drizzle-orm';
 import { totp } from 'otplib';
@@ -25,7 +25,11 @@ router.post(
     const db = await dbConnect();
       const statement = sql`select mktSymbol,mktLongName, mktInformation,isActive from validMarkets;`
       
-      const arya=await db.execute(statement);
+      const arya = await db.select({symbol: validMarkets.mktSymbol, longname: validMarkets.mktLongName,
+        information: validMarkets.mktInformation, active: validMarkets.isActive
+      })
+      .from(validMarkets)
+      //const arya=await db.execute(statement);
 
       res.status(200).json({
         response: 'Success',

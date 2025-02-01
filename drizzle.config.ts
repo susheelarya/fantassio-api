@@ -13,18 +13,16 @@ require('dotenv').config();
 
 
 export default {
-  schema: './src/db/schema',
+  schema: './drizzle/new_schema',
+  //./src/db/schema',
   out: './drizzle',
-  driver: 'mysql2',
-  // dbCredentials: {
-  //   connectionString: "root:Fr000glers!@localhost:3306/stk11L"
-  // }
+  driver: 'pg',
   dbCredentials: {
-    port: 3306,
-    host: "localhost",
-    user: "root",
-    database: "stk11L",
-    password:"Fr000glers!",
-    ssl: true,
+    //connectionString: "postgresql://devang:password!@localhost:3306/fantassio",
+    host: 'localhost',
+    port: 5432,
+    user: 'devang',
+    password: 'password',
+    database: 'fantassio'
   }
 } satisfies Config;

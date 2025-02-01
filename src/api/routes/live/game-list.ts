@@ -24,13 +24,22 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     const db = await dbConnect();
-      const statement = sql`select parameter_key,parameter_value, parameter_flag from general_parameter_master where parameter=${pValue};`
+      const statement = sql`select parameter_key,parameter_value, parameter_flag from general_parameter_master 
+      where parameter=${pValue};`
       
-      const arya=await db.execute(statement);
+      const arya = await db.select({paramkey: generalParameterMaster.parameterKey,
+        paramvalue: generalParameterMaster.parameterValue,
+        paramflag: generalParameterMaster.parameterFlag
+      })
+      .from(generalParameterMaster)
+      .where(
+        eq(generalParameterMaster.parameter, pValue)
+      )
+      //const arya=await db.execute(statement);
 
       res.status(200).json({
         response: 'Success',
-        "Data:" : arya[0]
+        "Data" : arya
       });
     }
 );

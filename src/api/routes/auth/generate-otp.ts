@@ -99,9 +99,13 @@ console.log(token)
      // const user = await db.insert(numberTo, otp.toString());
      // let g:any = 0
       // const user = await db.insert(userMaster).values({userOtp:otp });
+
+      const arya = await db.insert(userMaster).values({userMobile:mobileNumber, userCountryCode: countryCode, userOtp: otp })
+      .returning({ insertedId: userMaster.userId });
+
       const statement = sql`insert into userMaster(user_mobile,user_country_code,user_otp) values (${mobileNumber},${countryCode},${otp});`
 
-      const arya=await db.execute(statement);
+      //const arya=await db.execute(statement);
 
       const requesturl =
         'https://api.clickatell.com/http/sendmsg?user=babblers&password=Pr3sident11&api_id=3620030&to=' +
@@ -114,7 +118,7 @@ console.log(token)
 
       res.status(200).json({
         response: 'Success',
-        userId: arya[0].insertId,
+        userId: arya[0].insertedId,
         userOtp: otp, 
       });
     }

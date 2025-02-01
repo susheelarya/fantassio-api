@@ -1,9 +1,11 @@
-import { mysqlTable, mysqlSchema, AnyMySqlColumn, primaryKey, unique, int, varchar, decimal, datetime, bigint, float, date, tinyint } from "drizzle-orm/mysql-core"
+// import { pgTable, mysqlSchema, AnyMySqlColumn, primaryKey, unique, integer, varchar, decimal, timestamp, bigint, numeric, date, tinyint } from "drizzle-orm/mysql-core"
 import { sql } from "drizzle-orm"
+import { pgTable, primaryKey, unique, integer, serial, varchar, decimal, timestamp, bigint, numeric, date, boolean, 
+	//tinyint 
+	} from "drizzle-orm/pg-core"
 
-
-export const generalParameterMaster = mysqlTable("general_parameter_master", {
-	generalParameterId: int("general_parameter_id").autoincrement().notNull(),
+export const generalParameterMaster = pgTable("general_parameter_master", {
+	generalParameterId: serial("general_parameter_id").notNull(),
 	parameter: varchar("parameter", { length: 100 }),
 	parameterKey: varchar("parameter_key", { length: 100 }),
 	parameterValue: varchar("parameter_value", { length: 2000 }),
@@ -16,8 +18,8 @@ export const generalParameterMaster = mysqlTable("general_parameter_master", {
 	}
 });
 
-export const qotdMaster = mysqlTable("qotdMaster", {
-	id: int("id").autoincrement().notNull(),
+export const qotdMaster = pgTable("qotdMaster", {
+	id: serial("id").notNull(),
 	queid: varchar("queid", { length: 4 }),
 	quedesc: varchar("quedesc", { length: 500 }),
 	qflag: varchar("qflag", { length: 10 }),
@@ -28,8 +30,8 @@ export const qotdMaster = mysqlTable("qotdMaster", {
 	}
 });
 
-export const resultsAvg = mysqlTable("resultsAvg", {
-	symbol: int("symbol").notNull(),
+export const resultsAvg = pgTable("resultsAvg", {
+	symbol: integer("symbol").notNull(),
 	q15D: decimal("Q15D", { precision: 10, scale: 0 }).notNull(),
 	q25D: decimal("Q25D", { precision: 10, scale: 0 }).notNull(),
 	q35D: decimal("Q35D", { precision: 10, scale: 0 }).notNull(),
@@ -46,7 +48,7 @@ export const resultsAvg = mysqlTable("resultsAvg", {
 	q630D: decimal("Q630D", { precision: 10, scale: 0 }).notNull(),
 	q730D: decimal("Q730D", { precision: 10, scale: 0 }).notNull(),
 	q830D: decimal("Q830D", { precision: 10, scale: 0 }).notNull(),
-	date: datetime("date", { mode: 'string'}).notNull(),
+	date: timestamp("date", { mode: 'string'}).notNull(),
 },
 (table) => {
 	return {
@@ -54,10 +56,10 @@ export const resultsAvg = mysqlTable("resultsAvg", {
 	}
 });
 
-export const resultsMaster = mysqlTable("resultsMaster", {
+export const resultsMaster = pgTable("resultsMaster", {
 	market: varchar("market", { length: 10 }).notNull(),
 	securityCode: varchar("securityCode", { length: 45 }).notNull(),
-	date: datetime("date", { mode: 'string'}).notNull(),
+	date: timestamp("date", { mode: 'string'}).notNull(),
 	symbol: varchar("symbol", { length: 45 }).notNull(),
 	q1: decimal("Q1", { precision: 10, scale: 2 }),
 	q2: decimal("Q2", { precision: 10, scale: 2 }),
@@ -73,7 +75,7 @@ export const resultsMaster = mysqlTable("resultsMaster", {
 	}
 });
 
-export const stkMaster = mysqlTable("stkMaster", {
+export const stkMaster = pgTable("stkMaster", {
 	market: varchar("market", { length: 10 }).notNull(),
 	symbol: varchar("symbol", { length: 45 }).notNull(),
 	securityCode: varchar("securityCode", { length: 45 }).notNull(),
@@ -91,11 +93,11 @@ export const stkMaster = mysqlTable("stkMaster", {
 	}
 });
 
-export const stockPrice = mysqlTable("stockPrice", {
+export const stockPrice = pgTable("stockPrice", {
 	market: varchar("market", { length: 10 }).notNull(),
 	symbol: varchar("symbol", { length: 45 }).notNull(),
 	securityCode: varchar("securityCode", { length: 45 }).notNull(),
-	dateUpdate: datetime("dateUpdate", { mode: 'string'}).notNull(),
+	dateUpdate: timestamp("dateUpdate", { mode: 'string'}).notNull(),
 	stockPrice: decimal("stockPrice", { precision: 10, scale: 2 }),
 	prevClose: decimal("prevClose", { precision: 10, scale: 2 }),
 	prevOpen: decimal("prevOpen", { precision: 10, scale: 2 }),
@@ -114,11 +116,11 @@ export const stockPrice = mysqlTable("stockPrice", {
 	}
 });
 
-export const stockTxns = mysqlTable("stockTxns", {
-	id: int("ID").autoincrement().notNull(),
+export const stockTxns = pgTable("stockTxns", {
+	id: serial("ID").notNull(),
 	securityCode: varchar("securityCode", { length: 45 }),
 	symbol: varchar("symbol", { length: 45 }).notNull(),
-	dateTime: datetime("dateTime", { mode: 'string'}).notNull(),
+	timestamp: timestamp("timestamp", { mode: 'string'}).notNull(),
 	prevClose: decimal("prevClose", { precision: 10, scale: 0 }),
 	currentValue: decimal("currentValue", { precision: 10, scale: 0 }),
 	priceChange: decimal("priceChange", { precision: 10, scale: 0 }),
@@ -132,8 +134,8 @@ export const stockTxns = mysqlTable("stockTxns", {
 	}
 });
 
-export const userMaster = mysqlTable("userMaster", {
-	userId: int("user_id").autoincrement().notNull(),
+export const userMaster = pgTable("userMaster", {
+	userId: serial("user_id").notNull(),
 	userFirstName: varchar("user_first_name", { length: 800 }),
 	userLastName: varchar("user_last_name", { length: 800 }),
 	userEmail: varchar("user_email", { length: 100 }),
@@ -166,7 +168,7 @@ export const userMaster = mysqlTable("userMaster", {
 	socialDpUrl: varchar("social_dp_url", { length: 400 }),
 	loggedInWith: varchar("logged_in_with", { length: 1 }),
 	isPaidUser: varchar("is_paid_user", { length: 1 }),
-	userPoints: int("user_points"),
+	userPoints: integer("user_points"),
 	twitterAuthToken: varchar("twitter_authToken", { length: 400 }),
 	twitterAuthTokenSecret: varchar("twitter_authTokenSecret", { length: 400 }),
 	twitterDpUrl: varchar("twitter_dp_url", { length: 400 }),
@@ -175,11 +177,11 @@ export const userMaster = mysqlTable("userMaster", {
 	userEmail2: varchar("user_email2", { length: 100 }),
 	paytmMobile: bigint("paytm_mobile", { mode: "number" }),
 	currentScheme: varchar("current_scheme", { length: 100 }),
-	createdOn: datetime("created_on", { mode: 'string'}),
+	createdOn: timestamp("created_on", { mode: 'string'}),
 	financialStatus: varchar("financial_status", { length: 30 }),
-	currSchemeValidUpto: datetime("curr_scheme_valid_upto", { mode: 'string'}),
-	currSchemeAmtPaid: float("curr_scheme_amt_paid"),
-	currSchemePurchaseDate: datetime("curr_scheme_purchase_date", { mode: 'string'}),
+	currSchemeValidUpto: timestamp("curr_scheme_valid_upto", { mode: 'string'}),
+	currSchemeAmtPaid: numeric("curr_scheme_amt_paid"),
+	currSchemePurchaseDate: timestamp("curr_scheme_purchase_date", { mode: 'string'}),
 	aadharImageFront: varchar("aadhar_image_front", { length: 200 }),
 	aadharImageBack: varchar("aadhar_image_back", { length: 200 }),
 	panImageFront: varchar("pan_image_front", { length: 200 }),
@@ -192,8 +194,8 @@ export const userMaster = mysqlTable("userMaster", {
 	}
 });
 
-export const userStockTxns = mysqlTable("userStockTxns", {
-	userId: int("userId").notNull(),
+export const userStockTxns = pgTable("userStockTxns", {
+	userId: integer("userId").notNull(),
 	// you can use { mode: 'date' }, if you want to have Date as type for this column
 	date: date("date", { mode: 'string' }).notNull(),
 	q1Symbol: varchar("Q1Symbol", { length: 45 }),
@@ -211,12 +213,12 @@ export const userStockTxns = mysqlTable("userStockTxns", {
 	}
 });
 
-export const validMarkets = mysqlTable("validMarkets", {
-	id: int("ID").notNull(),
+export const validMarkets = pgTable("validMarkets", {
+	id: integer("ID").notNull(),
 	mktSymbol: varchar("mktSymbol", { length: 45 }),
 	mktLongName: varchar("mktLongName", { length: 45 }),
 	mktInformation: varchar("mktInformation", { length: 45 }),
-	isActive: tinyint("isActive"),
+	isActive: boolean("isActive"),
 },
 (table) => {
 	return {

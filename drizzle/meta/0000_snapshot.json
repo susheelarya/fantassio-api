@@ -1,139 +1,221 @@
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "prevId": "",
   "version": "5",
-  "dialect": "mysql",
+  "dialect": "pg",
+  "id": "bad6d85b-81df-4d06-8f30-d662724b08eb",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "general_parameter_master": {
+      "name": "general_parameter_master",
+      "schema": "",
+      "columns": {
+        "general_parameter_id": {
+          "name": "general_parameter_id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "parameter": {
+          "name": "parameter",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parameter_key": {
+          "name": "parameter_key",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parameter_value": {
+          "name": "parameter_value",
+          "type": "varchar(2000)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parameter_flag": {
+          "name": "parameter_flag",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "general_parameter_master_general_parameter_id": {
+          "name": "general_parameter_master_general_parameter_id",
+          "columns": [
+            "general_parameter_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "uq_general_parameter_master": {
+          "name": "uq_general_parameter_master",
+          "nullsNotDistinct": false,
+          "columns": [
+            "parameter",
+            "parameter_key"
+          ]
+        }
+      }
+    },
+    "qotdMaster": {
+      "name": "qotdMaster",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "queid": {
+          "name": "queid",
+          "type": "varchar(4)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "quedesc": {
+          "name": "quedesc",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "qflag": {
+          "name": "qflag",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "qotdMaster_id": {
+          "name": "qotdMaster_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
     "resultsAvg": {
       "name": "resultsAvg",
+      "schema": "",
       "columns": {
         "symbol": {
-          "autoincrement": false,
           "name": "symbol",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
         "Q15D": {
-          "autoincrement": false,
           "name": "Q15D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q25D": {
-          "autoincrement": false,
           "name": "Q25D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q35D": {
-          "autoincrement": false,
           "name": "Q35D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q45D": {
-          "autoincrement": false,
           "name": "Q45D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q55D": {
-          "autoincrement": false,
           "name": "Q55D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q65D": {
-          "autoincrement": false,
           "name": "Q65D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q75D": {
-          "autoincrement": false,
           "name": "Q75D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q85D": {
-          "autoincrement": false,
           "name": "Q85D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q130D": {
-          "autoincrement": false,
           "name": "Q130D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q230D": {
-          "autoincrement": false,
           "name": "Q230D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q330D": {
-          "autoincrement": false,
           "name": "Q330D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q430D": {
-          "autoincrement": false,
           "name": "Q430D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q530D": {
-          "autoincrement": false,
           "name": "Q530D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q630D": {
-          "autoincrement": false,
           "name": "Q630D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q730D": {
-          "autoincrement": false,
           "name": "Q730D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "Q830D": {
-          "autoincrement": false,
           "name": "Q830D",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": true
         },
         "date": {
-          "autoincrement": false,
           "name": "date",
-          "type": "datetime",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": true
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {
         "resultsAvg_symbol": {
           "name": "resultsAvg_symbol",
@@ -142,91 +224,81 @@
           ]
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "uniqueConstraints": {}
     },
     "resultsMaster": {
       "name": "resultsMaster",
+      "schema": "",
       "columns": {
         "market": {
-          "autoincrement": false,
           "name": "market",
           "type": "varchar(10)",
           "primaryKey": false,
           "notNull": true
         },
         "securityCode": {
-          "autoincrement": false,
           "name": "securityCode",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": true
         },
         "date": {
-          "autoincrement": false,
           "name": "date",
-          "type": "datetime",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": true
         },
         "symbol": {
-          "autoincrement": false,
           "name": "symbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": true
         },
         "Q1": {
-          "autoincrement": false,
           "name": "Q1",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "Q2": {
-          "autoincrement": false,
           "name": "Q2",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "Q3": {
-          "autoincrement": false,
           "name": "Q3",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "Q4": {
-          "autoincrement": false,
           "name": "Q4",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "Q5": {
-          "autoincrement": false,
           "name": "Q5",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "Q6": {
-          "autoincrement": false,
           "name": "Q6",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "Q7": {
-          "autoincrement": false,
           "name": "Q7",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {
         "resultsMaster_date_market_securityCode": {
           "name": "resultsMaster_date_market_securityCode",
@@ -237,84 +309,75 @@
           ]
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "uniqueConstraints": {}
     },
     "stkMaster": {
       "name": "stkMaster",
+      "schema": "",
       "columns": {
         "market": {
-          "autoincrement": false,
           "name": "market",
           "type": "varchar(10)",
           "primaryKey": false,
           "notNull": true
         },
         "symbol": {
-          "autoincrement": false,
           "name": "symbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": true
         },
         "securityCode": {
-          "autoincrement": false,
           "name": "securityCode",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": true
         },
         "companyName": {
-          "autoincrement": false,
           "name": "companyName",
           "type": "varchar(500)",
           "primaryKey": false,
           "notNull": false
         },
         "industryType": {
-          "autoincrement": false,
           "name": "industryType",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "stockType": {
-          "autoincrement": false,
           "name": "stockType",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "sector": {
-          "autoincrement": false,
           "name": "sector",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "industry": {
-          "autoincrement": false,
           "name": "industry",
           "type": "varchar(500)",
           "primaryKey": false,
           "notNull": false
         },
         "subIndustry": {
-          "autoincrement": false,
           "name": "subIndustry",
           "type": "varchar(500)",
           "primaryKey": false,
           "notNull": false
         },
         "status": {
-          "autoincrement": false,
           "name": "status",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {
         "stkMaster_market_securityCode": {
           "name": "stkMaster_market_securityCode",
@@ -324,119 +387,105 @@
           ]
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "uniqueConstraints": {}
     },
     "stockPrice": {
       "name": "stockPrice",
+      "schema": "",
       "columns": {
         "market": {
-          "autoincrement": false,
           "name": "market",
           "type": "varchar(10)",
           "primaryKey": false,
           "notNull": true
         },
         "symbol": {
-          "autoincrement": false,
           "name": "symbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": true
         },
         "securityCode": {
-          "autoincrement": false,
           "name": "securityCode",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": true
         },
         "dateUpdate": {
-          "autoincrement": false,
           "name": "dateUpdate",
-          "type": "datetime",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": true
         },
         "stockPrice": {
-          "autoincrement": false,
           "name": "stockPrice",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "prevClose": {
-          "autoincrement": false,
           "name": "prevClose",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "prevOpen": {
-          "autoincrement": false,
           "name": "prevOpen",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "dayHigh": {
-          "autoincrement": false,
           "name": "dayHigh",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "dayLow": {
-          "autoincrement": false,
           "name": "dayLow",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "priceChange": {
-          "autoincrement": false,
           "name": "priceChange",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "percChange": {
-          "autoincrement": false,
           "name": "percChange",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "weightedPrice": {
-          "autoincrement": false,
           "name": "weightedPrice",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
-        "52weekHigh": {
-          "autoincrement": false,
-          "name": "52weekHigh",
-          "type": "decimal(10,2)",
+        "week52High": {
+          "name": "week52High",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
-        "52weekLow": {
-          "autoincrement": false,
-          "name": "52weekLow",
-          "type": "decimal(10,2)",
+        "week52Low": {
+          "name": "week52Low",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         },
         "fantassioPrice": {
-          "autoincrement": false,
           "name": "fantassioPrice",
-          "type": "decimal(10,2)",
+          "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": false
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {
         "stockPrice_dateUpdate_market_securityCode": {
           "name": "stockPrice_dateUpdate_market_securityCode",
@@ -447,84 +496,75 @@
           ]
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "uniqueConstraints": {}
     },
     "stockTxns": {
       "name": "stockTxns",
+      "schema": "",
       "columns": {
         "ID": {
-          "autoincrement": true,
           "name": "ID",
-          "type": "int",
+          "type": "serial",
           "primaryKey": false,
           "notNull": true
         },
         "securityCode": {
-          "autoincrement": false,
           "name": "securityCode",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "symbol": {
-          "autoincrement": false,
           "name": "symbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": true
         },
-        "dateTime": {
-          "autoincrement": false,
-          "name": "dateTime",
-          "type": "datetime",
+        "timestamp": {
+          "name": "timestamp",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": true
         },
         "prevClose": {
-          "autoincrement": false,
           "name": "prevClose",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": false
         },
         "currentValue": {
-          "autoincrement": false,
           "name": "currentValue",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": false
         },
         "priceChange": {
-          "autoincrement": false,
           "name": "priceChange",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": false
         },
         "dayHigh": {
-          "autoincrement": false,
           "name": "dayHigh",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": false
         },
         "dayLow": {
-          "autoincrement": false,
           "name": "dayLow",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": false
         },
         "IntDayVolatile": {
-          "autoincrement": false,
           "name": "IntDayVolatile",
-          "type": "decimal(10,0)",
+          "type": "numeric(10, 0)",
           "primaryKey": false,
           "notNull": false
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {
         "stockTxns_ID": {
           "name": "stockTxns_ID",
@@ -533,343 +573,327 @@
           ]
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "uniqueConstraints": {}
     },
     "userMaster": {
       "name": "userMaster",
+      "schema": "",
       "columns": {
         "user_id": {
-          "autoincrement": true,
           "name": "user_id",
-          "type": "int",
+          "type": "serial",
           "primaryKey": false,
           "notNull": true
         },
         "user_first_name": {
-          "autoincrement": false,
           "name": "user_first_name",
           "type": "varchar(800)",
           "primaryKey": false,
           "notNull": false
         },
         "user_last_name": {
-          "autoincrement": false,
           "name": "user_last_name",
           "type": "varchar(800)",
           "primaryKey": false,
           "notNull": false
         },
         "user_email": {
-          "autoincrement": false,
           "name": "user_email",
           "type": "varchar(100)",
           "primaryKey": false,
           "notNull": false
         },
         "user_mobile": {
-          "autoincrement": false,
           "name": "user_mobile",
           "type": "bigint",
           "primaryKey": false,
           "notNull": false
         },
         "user_country_code": {
-          "autoincrement": false,
           "name": "user_country_code",
           "type": "varchar(5)",
           "primaryKey": false,
           "notNull": false
         },
         "user_otp": {
-          "autoincrement": false,
           "name": "user_otp",
           "type": "varchar(10)",
           "primaryKey": false,
           "notNull": false
         },
         "is_user_validated": {
-          "autoincrement": false,
           "name": "is_user_validated",
           "type": "varchar(1)",
           "primaryKey": false,
           "notNull": false
         },
         "is_user_enabled": {
-          "autoincrement": false,
           "name": "is_user_enabled",
           "type": "varchar(1)",
           "primaryKey": false,
           "notNull": false
         },
         "user_password": {
-          "autoincrement": false,
           "name": "user_password",
           "type": "varchar(100)",
           "primaryKey": false,
           "notNull": false
         },
         "user_verification_token": {
-          "autoincrement": false,
           "name": "user_verification_token",
           "type": "varchar(50)",
           "primaryKey": false,
           "notNull": false
         },
         "user_image_name": {
-          "autoincrement": false,
           "name": "user_image_name",
           "type": "varchar(200)",
           "primaryKey": false,
           "notNull": false
         },
         "user_init_coord": {
-          "autoincrement": false,
           "name": "user_init_coord",
           "type": "varchar(100)",
           "primaryKey": false,
           "notNull": false
         },
         "user_state": {
-          "autoincrement": false,
           "name": "user_state",
           "type": "varchar(100)",
           "primaryKey": false,
           "notNull": false
         },
         "user_name": {
-          "autoincrement": false,
           "name": "user_name",
           "type": "varchar(800)",
           "primaryKey": false,
           "notNull": false
         },
         "Phoneverified": {
-          "autoincrement": false,
           "name": "Phoneverified",
           "type": "varchar(50)",
           "primaryKey": false,
           "notNull": false
         },
         "Pictureverified": {
-          "autoincrement": false,
           "name": "Pictureverified",
           "type": "varchar(50)",
           "primaryKey": false,
           "notNull": false
         },
         "Inpersonverified": {
-          "autoincrement": false,
           "name": "Inpersonverified",
           "type": "varchar(50)",
           "primaryKey": false,
           "notNull": false
         },
         "user_gender": {
-          "autoincrement": false,
           "name": "user_gender",
           "type": "varchar(10)",
           "primaryKey": false,
           "notNull": false
         },
         "user_age_group": {
-          "autoincrement": false,
           "name": "user_age_group",
           "type": "varchar(20)",
           "primaryKey": false,
           "notNull": false
         },
         "user_language": {
-          "autoincrement": false,
           "name": "user_language",
           "type": "varchar(5)",
           "primaryKey": false,
           "notNull": false
         },
         "pushNotificationToken": {
-          "autoincrement": false,
           "name": "pushNotificationToken",
           "type": "varchar(200)",
           "primaryKey": false,
           "notNull": false
         },
         "user_device": {
-          "autoincrement": false,
           "name": "user_device",
           "type": "varchar(50)",
           "primaryKey": false,
           "notNull": false
         },
         "user_description": {
-          "autoincrement": false,
           "name": "user_description",
           "type": "varchar(4000)",
           "primaryKey": false,
           "notNull": false
         },
         "daily_notification_flag": {
-          "autoincrement": false,
           "name": "daily_notification_flag",
           "type": "varchar(1)",
           "primaryKey": false,
           "notNull": false
         },
         "app_version": {
-          "autoincrement": false,
           "name": "app_version",
           "type": "varchar(10)",
           "primaryKey": false,
           "notNull": false
         },
         "social_user_id": {
-          "autoincrement": false,
           "name": "social_user_id",
           "type": "varchar(1000)",
           "primaryKey": false,
           "notNull": false
         },
         "social_authToken": {
-          "autoincrement": false,
           "name": "social_authToken",
           "type": "varchar(4000)",
           "primaryKey": false,
           "notNull": false
         },
         "social_authTokenSecret": {
-          "autoincrement": false,
           "name": "social_authTokenSecret",
           "type": "varchar(400)",
           "primaryKey": false,
           "notNull": false
         },
         "social_user_name": {
-          "autoincrement": false,
           "name": "social_user_name",
           "type": "varchar(400)",
           "primaryKey": false,
           "notNull": false
         },
         "social_dp_url": {
-          "autoincrement": false,
           "name": "social_dp_url",
           "type": "varchar(400)",
           "primaryKey": false,
           "notNull": false
         },
         "logged_in_with": {
-          "autoincrement": false,
           "name": "logged_in_with",
           "type": "varchar(1)",
           "primaryKey": false,
           "notNull": false
         },
         "is_paid_user": {
-          "autoincrement": false,
           "name": "is_paid_user",
           "type": "varchar(1)",
           "primaryKey": false,
           "notNull": false
         },
         "user_points": {
-          "autoincrement": false,
           "name": "user_points",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
         "twitter_authToken": {
-          "autoincrement": false,
           "name": "twitter_authToken",
           "type": "varchar(400)",
           "primaryKey": false,
           "notNull": false
         },
         "twitter_authTokenSecret": {
-          "autoincrement": false,
           "name": "twitter_authTokenSecret",
           "type": "varchar(400)",
           "primaryKey": false,
           "notNull": false
         },
         "twitter_dp_url": {
-          "autoincrement": false,
           "name": "twitter_dp_url",
           "type": "varchar(400)",
           "primaryKey": false,
           "notNull": false
         },
         "twitter_user_id": {
-          "autoincrement": false,
           "name": "twitter_user_id",
           "type": "varchar(400)",
           "primaryKey": false,
           "notNull": false
         },
         "twitter_user_name": {
-          "autoincrement": false,
           "name": "twitter_user_name",
           "type": "varchar(400)",
           "primaryKey": false,
           "notNull": false
         },
         "user_email2": {
-          "autoincrement": false,
           "name": "user_email2",
           "type": "varchar(100)",
           "primaryKey": false,
           "notNull": false
         },
         "paytm_mobile": {
-          "autoincrement": false,
           "name": "paytm_mobile",
           "type": "bigint",
           "primaryKey": false,
           "notNull": false
         },
         "current_scheme": {
-          "autoincrement": false,
           "name": "current_scheme",
           "type": "varchar(100)",
           "primaryKey": false,
           "notNull": false
         },
         "created_on": {
-          "autoincrement": false,
           "name": "created_on",
-          "type": "datetime",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": false
         },
         "financial_status": {
-          "autoincrement": false,
           "name": "financial_status",
           "type": "varchar(30)",
           "primaryKey": false,
           "notNull": false
         },
         "curr_scheme_valid_upto": {
-          "autoincrement": false,
           "name": "curr_scheme_valid_upto",
-          "type": "datetime",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": false
         },
         "curr_scheme_amt_paid": {
-          "autoincrement": false,
           "name": "curr_scheme_amt_paid",
-          "type": "float",
+          "type": "numeric",
           "primaryKey": false,
           "notNull": false
         },
         "curr_scheme_purchase_date": {
-          "autoincrement": false,
           "name": "curr_scheme_purchase_date",
-          "type": "datetime",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "aadhar_image_front": {
+          "name": "aadhar_image_front",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "aadhar_image_back": {
+          "name": "aadhar_image_back",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pan_image_front": {
+          "name": "pan_image_front",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_aadhar_validated": {
+          "name": "is_aadhar_validated",
+          "type": "varchar(1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_pan_validated": {
+          "name": "is_pan_validated",
+          "type": "varchar(1)",
           "primaryKey": false,
           "notNull": false
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {
         "userMaster_user_id": {
           "name": "userMaster_user_id",
@@ -878,84 +902,75 @@
           ]
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "uniqueConstraints": {}
     },
     "userStockTxns": {
       "name": "userStockTxns",
+      "schema": "",
       "columns": {
         "userId": {
-          "autoincrement": false,
           "name": "userId",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
         "date": {
-          "autoincrement": false,
           "name": "date",
           "type": "date",
           "primaryKey": false,
           "notNull": true
         },
         "Q1Symbol": {
-          "autoincrement": false,
           "name": "Q1Symbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "Q2Symbol": {
-          "autoincrement": false,
           "name": "Q2Symbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "Q3Symbol": {
-          "autoincrement": false,
           "name": "Q3Symbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "Q4Symbol": {
-          "autoincrement": false,
           "name": "Q4Symbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "Q5Symbol": {
-          "autoincrement": false,
           "name": "Q5Symbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "Q6Symbol": {
-          "autoincrement": false,
           "name": "Q6Symbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "Q7Symbol": {
-          "autoincrement": false,
           "name": "Q7Symbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "Q8Symbol": {
-          "autoincrement": false,
           "name": "Q8Symbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {
         "userStockTxns_date_userId": {
           "name": "userStockTxns_date_userId",
@@ -965,49 +980,45 @@
           ]
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "uniqueConstraints": {}
     },
     "validMarkets": {
       "name": "validMarkets",
+      "schema": "",
       "columns": {
         "ID": {
-          "autoincrement": false,
           "name": "ID",
-          "type": "int",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
         "mktSymbol": {
-          "autoincrement": false,
           "name": "mktSymbol",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "mktLongName": {
-          "autoincrement": false,
           "name": "mktLongName",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "mktInformation": {
-          "autoincrement": false,
           "name": "mktInformation",
           "type": "varchar(45)",
           "primaryKey": false,
           "notNull": false
         },
         "isActive": {
-          "autoincrement": false,
           "name": "isActive",
-          "type": "tinyint",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": false
         }
       },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {
         "validMarkets_ID": {
           "name": "validMarkets_ID",
@@ -1016,11 +1027,10 @@
           ]
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
       "uniqueConstraints": {}
     }
   },
+  "enums": {},
   "schemas": {},
   "_meta": {
     "schemas": {},
