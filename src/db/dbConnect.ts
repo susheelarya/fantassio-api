@@ -2,6 +2,7 @@ import { NodePgDatabase, drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 let isConnected = false;
 let drizzleDb: NodePgDatabase<Record<string, never>>;
+
 export const dbConnect = async () => {
   if (isConnected && drizzleDb) {
     return drizzleDb;
