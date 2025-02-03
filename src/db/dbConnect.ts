@@ -6,6 +6,7 @@ let drizzleDb: NodePgDatabase<Record<string, never>>;
 export const dbConnect = async () => {
   if (isConnected && drizzleDb) {
     return drizzleDb;
+
   } else {
     try {
       const pool = new Pool({
@@ -22,13 +23,9 @@ export const dbConnect = async () => {
                 // },
               });
       const client = await pool.connect();
-
-      
       const db = drizzle(client);
       drizzleDb = db;
-
       console.log('Connected to DB');
-
       return db;
     } catch (error) {
       console.log(error)
