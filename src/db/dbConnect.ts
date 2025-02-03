@@ -9,7 +9,7 @@ export const dbConnect = async () => {
   } else {
     try {
       const pool = new Pool({
-                connectionString: "postgresql://neondb_owner:npg_cYvxB4Vqm5T@ep-icy-tooth-a1ag3a2l-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
+                connectionString: "postgresql://neondb_owner:npg_cYfvxB4Vqm5T@ep-icy-tooth-a1ag3a2l-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
                 //process.env.DRIZZLE_DATABASE_URL!,
                 // user: 'devang',
                 // host: 'localhost',
