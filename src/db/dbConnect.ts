@@ -23,6 +23,7 @@ export const dbConnect = async () => {
               });
       const client = await pool.connect();
 
+      
       const db = drizzle(client);
       drizzleDb = db;
 
