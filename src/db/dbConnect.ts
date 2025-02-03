@@ -22,6 +22,7 @@ export const dbConnect = async () => {
                 //   rejectUnauthorized: false,
                 // },
               });
+              
       const client = await pool.connect();
       const db = drizzle(client);
       drizzleDb = db;
