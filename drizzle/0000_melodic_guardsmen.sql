@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS "resultsMaster" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "stkMaster" (
-	"market" varchar(10) NOT NULL,
+	"market" varchar(25) NOT NULL,
 	"symbol" varchar(45) NOT NULL,
 	"securityCode" varchar(45) NOT NULL,
 	"companyName" varchar(500),

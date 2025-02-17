@@ -76,7 +76,7 @@ export const resultsMaster = pgTable("resultsMaster", {
 });
 
 export const stkMaster = pgTable("stkMaster", {
-	market: varchar("market", { length: 10 }).notNull(),
+	market: varchar("market", { length: 25 }).notNull(),
 	symbol: varchar("symbol", { length: 45 }).notNull(),
 	securityCode: varchar("securityCode", { length: 45 }).notNull(),
 	companyName: varchar("companyName", { length: 500 }),
